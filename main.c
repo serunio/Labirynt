@@ -24,11 +24,7 @@ int main(int argc, char** argv) {
 
     generuj(l, 1, 1, rand());
 
-    //spoziome = poziom();
-    //spionowe = pion();
-
     druk(l, x, y, rand());
     printf("\n");
-    //druk0(spionowe, spoziome, x, y, rand());
 
 }

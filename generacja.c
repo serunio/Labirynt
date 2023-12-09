@@ -26,9 +26,6 @@ komorka_t** tworzl(int x, int y)
         l[0][i].odwiedzony = -1;
         l[y-1][i].odwiedzony = -1;
     }
-    //spionowe = tworzs(x-3, y-2);
-
-    //spoziome = tworzs(x-2, y-3);
 
     //wybor komorek startowej i koncowej
     int start = rand()%(x-2) + 1, stop = rand()%(x-2) + 1;
@@ -38,17 +35,6 @@ komorka_t** tworzl(int x, int y)
     return l;
 }
 
-
-int** tworzs(int x, int y)
-{
-    int** s = malloc(y*sizeof(int*));
-    for(int i = 0; i < y; i++) {
-        s[i] = malloc(x * sizeof(int));
-        for (int j = 0; j < x; j++)
-            s[i][j] = 1;
-    }
-    return s;
-}
 
 int generuj(komorka_t** k, int x, int y, int seed)
 {
@@ -75,16 +61,6 @@ int generuj(komorka_t** k, int x, int y, int seed)
         //printf("   kierunek: [%d][%d]\n",i[0],i[1]);
         if(generuj(k, x+i[0], y+i[1], seed))
         {
-         /*
-            if(i[0] == 1)
-                spionowe[y-1][x-1] = 0;
-            if(i[0] == -1)
-                spionowe[y-1][x-2] = 0;
-            if(i[1] == 1)
-                spoziome[y-1][x-1] = 0;
-            if(i[1] == -1)
-                spoziome[y-2][x-1] = 0;
-         */
             if(i[0] == 1) {
                 k[y][x].prawo = k[y][x+1].lewo = waga;
             } else
@@ -104,14 +80,6 @@ int generuj(komorka_t** k, int x, int y, int seed)
 
 }
 
-int** pion()
-{
-    return spionowe;
-}
-int** poziom()
-{
-    return spoziome;
-}
 
 int* losuj0(int seed)
 {

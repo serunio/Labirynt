@@ -15,13 +15,7 @@ typedef struct komorka
     int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
 }komorka_t, **labirynt;
 
-static int** spoziome; //tablica ścian poziomych
-static int** spionowe; //tablica ścian pionowych
-
 komorka_t** tworzl(int x, int y); //tworzy pusty labirynt
-int** tworzs(int x, int y); //tworzy tablice ścian
-int generuj(komorka_t** k, int x, int y, int seed);
-int** pion();
-int** poziom();
+int generuj(komorka_t** k, int x, int y, int seed); //tworzy ptzejscia w labiryncie
 int* losuj(int seed); //losowy kierunek
 #endif //LABIRYNT_GENERACJA_H
