@@ -26,9 +26,15 @@ komorka_t** tworzl(int x, int y)
         l[0][i].odwiedzony = -1;
         l[y-1][i].odwiedzony = -1;
     }
-    spionowe = tworzs(x-3, y-2);
+    //spionowe = tworzs(x-3, y-2);
 
-    spoziome = tworzs(x-2, y-3);
+    //spoziome = tworzs(x-2, y-3);
+
+    //wybor komorek startowej i koncowej
+    int start = rand()%(x-2) + 1, stop = rand()%(x-2) + 1;
+    l[1][start].rodzaj = START;
+    l[y-2][stop].rodzaj = STOP;
+
     return l;
 }
 
