@@ -55,7 +55,6 @@ void drukpoziom(labirynt l, int x, int y)
         }
         else if(l[y][i].dol == 0)
             printf("#####");
-
     }
     printf("\n");
 }

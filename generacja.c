@@ -8,14 +8,17 @@
 
 komorka_t** tworzl(int x, int y)
 {
+    //zaalokowanie pamieci dla labiryntu
     komorka_t** l = (komorka_t**)malloc(y*sizeof(komorka_t*));
     for(int i = 0; i < y; i++)
         l[i] = (komorka_t*)malloc(x*sizeof(komorka_t));
 
+    //ustawienie zmiennych we wszystkich komorkach na domyslna wartosc
     for(int i = 1; i < y-1; i++)
         for(int j = 1; j < x-1; j++)
             l[i][j].odwiedzony = l[i][j].lewo = l[i][j].prawo = l[i][j].gora = l[i][j].dol = l[i][j].rodzaj = 0;
 
+    //ustawienie barier na brzegach aby funkcja generuj tam nie wchodzila
     for(int i = 0; i < y; i++)
     {
         l[i][0].odwiedzony = -1;
@@ -40,18 +43,17 @@ int generuj(komorka_t** k, int x, int y, int seed)
 {
     srand(seed);
 
+    //sprawdza czy komorka jest nieodwiedzona
     if(k[y][x].odwiedzony != 0)
     {
         //printf("komorka: [%d][%d]   odwiedzony = %d\n", x, y, k[y][x].odwiedzony);
         return 0;
     }
-
     k[y][x].odwiedzony = 1;
-    int* i;
+
+    int* i; //kierunek nastepnego przejscia
     while(k[y+1][x].odwiedzony == 0 || k[y-1][x].odwiedzony == 0 || k[y][x+1].odwiedzony == 0 || k[y][x-1].odwiedzony == 0)
     {
-
-
         seed = rand();
         //printf("%d %d\n", x, y);
         int waga = rand()%100 +1 ;
