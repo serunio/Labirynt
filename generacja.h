@@ -8,7 +8,7 @@
 #define STOP 2
 typedef struct komorka
 {
-    int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony, -1 - bariera
+    int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony przez generuj(), -1 - bariera, 2 - odwiedzony przez solver()
     int rodzaj; //1 - start, 2 - stop
 
     //przejścia
