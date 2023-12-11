@@ -10,9 +10,10 @@ typedef struct
 {
     int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony przez generuj(), -1 - bariera, 2 - odwiedzony przez solver()
     int rodzaj; //1 - start, 2 - stop
-
+    int numer;
     //przejścia
     int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
+    int x, y; //wspolrzedne komorki
 }komorka_t;
 
 typedef struct

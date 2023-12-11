@@ -11,14 +11,14 @@
 int main(int argc, char** argv) {
     int seed =  (int)time(NULL)-1701878136;
     //356065;
-    droga* d = malloc(sizeof * d);
+    droga* d = NULL;
     printf("%d\n", seed);
     if (argc < 3)
     {
         printf("Podaj wymiary labiryntu\n");
         return 1;
     }
-    srand(54);
+    srand(seed);
     int x = atoi(argv[1]);  //wymiary
     int y = atoi(argv[2]);  //labiryntu
 
@@ -28,7 +28,10 @@ int main(int argc, char** argv) {
 
     druk(lab.l, x, y, rand());
     printf("\n");
-    int waga = 0;
-    waga = solver(lab.l, d, 1, y, waga);
-    printf("%d", waga);
+    int* waga = calloc(1, sizeof * waga);
+
+    solver(lab.l, &d, lab.start.x, lab.start.y, waga);
+    printf("%d\n", *waga);
+    printf("[%d]", lab.start.numer);
+    writer(d);
 }

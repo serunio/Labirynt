@@ -6,39 +6,52 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int solver(komorka_t** l, droga* d, int x, int y, int waga)
+int solver(komorka_t** l, droga** d, int x, int y, int* waga)
 {
-    if(l[y][x].rodzaj == START)
-        return 1;
+
     if(l[y][x].odwiedzony != 1)
         return 0;
     l[y][x].odwiedzony = 2;
 
-    droga* new = malloc(sizeof * new);
+
     int r = 0;
+
     if(l[y][x].prawo)
-        r = f(l, d, new, x+1, y, &waga);
+        r = f(l, d, x+1, y, waga, l[y][x].prawo);
     if(l[y][x].lewo && r == 0)
-        r = f(l, d, new, x-1, y, &waga);
+        r = f(l, d, x-1, y, waga, l[y][x].lewo);
     if(l[y][x].dol && r == 0)
-        r = f(l, d, new, x, y+1, &waga);
+        r = f(l, d, x, y+1, waga, l[y][x].dol);
     if(l[y][x].gora && r == 0)
-        r = f(l, d, new, x, y-1, &waga);
+        r = f(l, d, x, y-1, waga, l[y][x].gora);
+
 
     return r;
 }
 
-int f(komorka_t** l, droga* d, droga* new, int x, int y, int* waga)
+int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
 {
-        *waga += l[y][x].prawo;
-        if(solver(l, new, x, y, *waga))
+        *waga += w;
+        if(l[y][x].rodzaj == STOP || solver(l, d, x, y, waga))
         {
-            //printf("%d\n", x+(y-1)*5);
-            d->step = l[y][x];
-            new->next = d;
+            droga* new = malloc(sizeof * new);
+            new->step = l[y][x];
+
+            new->waga = w;
+            new->next = *d;
+            *d = new;
+           // printf("%p\n", d);
             return *waga;
         }
-        *waga -= l[y][x].prawo;
+        *waga -= w;
         return 0;
 }
 
+void writer(droga* d)
+{
+    while(d != NULL)
+    {
+        printf("-%d->[%d]", d->waga ,d->step.numer);
+        d = d->next;
+    }
+}

@@ -16,9 +16,15 @@ labirynt tworzl(int x, int y)
 
     //ustawienie zmiennych we wszystkich komorkach na domyslna wartosc
     for(int i = 1; i < y-1; i++)
-        for(int j = 1; j < x-1; j++)
+    {
+        for (int j = 1; j < x - 1; j++) {
             l[i][j].odwiedzony = l[i][j].lewo = l[i][j].prawo = l[i][j].gora = l[i][j].dol = l[i][j].rodzaj = 0;
+            l[i][j].numer = j + (i - 1) * (x-2);
+            l[i][j].x = j;
+            l[i][j].y = i;
+        }
 
+    }
     //ustawienie barier na brzegach aby funkcja generuj tam nie wchodzila
     for(int i = 0; i < y; i++)
     {
@@ -61,7 +67,7 @@ int generuj(komorka_t** k, int x, int y, int seed)
     {
         seed = rand();
         //printf("%d %d\n", x, y);
-        int waga = 2;//rand()%100 +1 ;
+        int waga = rand()%100 +1 ;
         //printf("%d\n\n", waga);
         //printf("komorka: [%d][%d]", x, y);
         i = losuj(rand());

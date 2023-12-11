@@ -11,10 +11,11 @@ typedef struct droga
 {
     komorka_t step;
     struct droga* next;
+    int waga;
 
 }droga;
 
-int solver(komorka_t**, droga*, int x, int y, int waga);
-int f(komorka_t** l, droga* d, droga* new, int x, int y, int* waga);
-void writer(droga);
+int solver(komorka_t**, droga**, int x, int y, int* waga);
+int f(komorka_t** l, droga** d, int x, int y, int* waga, int nowa_waga);
+void writer(droga*);
 #endif //LABIRYNT_SOLVER_H
