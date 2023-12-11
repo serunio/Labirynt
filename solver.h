@@ -14,7 +14,7 @@ typedef struct droga
 
 }droga;
 
-int solver(labirynt, droga*, int x, int y, int waga);
-int f(labirynt l, droga* d, droga* new, int x, int y, int* waga);
+int solver(komorka_t**, droga*, int x, int y, int waga);
+int f(komorka_t** l, droga* d, droga* new, int x, int y, int* waga);
 void writer(droga);
 #endif //LABIRYNT_SOLVER_H

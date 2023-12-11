@@ -6,8 +6,9 @@
 #include <math.h>
 #include <stdio.h>
 
-komorka_t** tworzl(int x, int y)
+labirynt tworzl(int x, int y)
 {
+    labirynt labirynt1;
     //zaalokowanie pamieci dla labiryntu
     komorka_t** l = (komorka_t**)malloc(y*sizeof(komorka_t*));
     for(int i = 0; i < y; i++)
@@ -35,7 +36,11 @@ komorka_t** tworzl(int x, int y)
     l[1][start].rodzaj = START;
     l[y-2][stop].rodzaj = STOP;
 
-    return l;
+    labirynt1.l = l;
+    labirynt1.start = l[1][start];
+    labirynt1.stop = l[y-2][stop];
+
+    return labirynt1;
 }
 
 
@@ -56,7 +61,7 @@ int generuj(komorka_t** k, int x, int y, int seed)
     {
         seed = rand();
         //printf("%d %d\n", x, y);
-        int waga = rand()%100 +1 ;
+        int waga = 2;//rand()%100 +1 ;
         //printf("%d\n\n", waga);
         //printf("komorka: [%d][%d]", x, y);
         i = losuj(rand());
