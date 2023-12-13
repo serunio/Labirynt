@@ -32,6 +32,6 @@ int main(int argc, char** argv) {
     solver(lab.l, &d, lab.start.x, lab.start.y, waga);
     druk(lab.l, x, y, rand());
     printf("%d\n", *waga);
-    printf("[%d]", lab.start.numer);
+    printf("[%d]", lab.start.numer);//
     writer(d);
 }

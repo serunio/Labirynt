@@ -57,6 +57,6 @@ void writer(droga* d)
             d = d->next;
             free(tmp);
         }
-        printf("\n");
+        printf("\n");//
     }
 }

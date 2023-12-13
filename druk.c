@@ -49,7 +49,7 @@ void drukpion(komorka_t** l, int x, int y)
 }
 void drukpion_pusty(komorka_t** l, int x, int y)
 {
-    for(int j = 0; j<3; j++) {
+    for(int j = 0; j<3; j++) {//
         printf("#");
         for (int i = 1; i < x; i++)
         {

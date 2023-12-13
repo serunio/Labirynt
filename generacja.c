@@ -10,7 +10,7 @@ labirynt tworzl(int x, int y)
 {
     labirynt labirynt1;
     //zaalokowanie pamieci dla labiryntu
-    komorka_t** l = (komorka_t**)malloc(y*sizeof(komorka_t*));
+    komorka_t** l = (komorka_t**)malloc(y*sizeof(komorka_t*));//
     for(int i = 0; i < y; i++)
         l[i] = (komorka_t*)malloc(x*sizeof(komorka_t));
 
