@@ -47,6 +47,43 @@ void drukpion(komorka_t** l, int x, int y)
             printf("       #\n");
     }
 }
+void drukpion_pusty(komorka_t** l, int x, int y)
+{
+    for(int j = 0; j<3; j++) {
+        printf("#");
+        for (int i = 1; i < x; i++)
+        {
+                printf("       ");
+            if (l[y][i].prawo >  0)
+                printf(" ");
+            else if (l[y][i].prawo == 0)
+                printf("#");
+        }
+            printf("       #\n");
+    }
+}
+
+void drukpion_sciezka(komorka_t** l, int x, int y)
+{
+    for(int j = 0; j<3; j++) {
+        printf("#");
+        for (int i = 1; i < x; i++)
+        {
+            if(j==1)
+                printf(" %3d   ",i+(y-1)*x);
+            else
+                printf("       ");
+            if (l[y][i].prawo >  0)
+                printf(" ");
+            else if (l[y][i].prawo == 0)
+                printf("#");
+        }
+        if(j==1)
+            printf(" %3d   #\n",x+(y-1)*x);
+        else
+            printf("       #\n");
+    }
+}
 
 void drukpoziom(komorka_t** l, int x, int y)
 {

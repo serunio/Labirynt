@@ -36,7 +36,7 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
         {
             droga* new = malloc(sizeof * new);
             new->step = l[y][x];
-
+            l[y][x].odwiedzony = 3;
             new->waga = w;
             new->next = *d;
             *d = new;
@@ -49,9 +49,14 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
 
 void writer(droga* d)
 {
-    while(d != NULL)
-    {
-        printf("-%d->[%d]", d->waga ,d->step.numer);
-        d = d->next;
+    droga* tmp;
+    while(d!=NULL) {
+        for (int i = 1; i < 10 && d != NULL; i++) {
+            printf("-%d->[%d]", d->waga, d->step.numer);
+            tmp = d;
+            d = d->next;
+            free(tmp);
+        }
+        printf("\n");
     }
 }

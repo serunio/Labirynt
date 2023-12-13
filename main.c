@@ -26,11 +26,11 @@ int main(int argc, char** argv) {
 
     generuj(lab.l, 1, 1, rand());
 
-    druk(lab.l, x, y, rand());
     printf("\n");
     int* waga = calloc(1, sizeof * waga);
 
     solver(lab.l, &d, lab.start.x, lab.start.y, waga);
+    druk(lab.l, x, y, rand());
     printf("%d\n", *waga);
     printf("[%d]", lab.start.numer);
     writer(d);

@@ -67,7 +67,7 @@ int generuj(komorka_t** k, int x, int y, int seed)
     {
         seed = rand();
         //printf("%d %d\n", x, y);
-        int waga = rand()%100 +1 ;
+        int waga = rand()%10 +1 ;
         //printf("%d\n\n", waga);
         //printf("komorka: [%d][%d]", x, y);
         i = losuj(rand());
