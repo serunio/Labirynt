@@ -13,7 +13,6 @@ int solver(komorka_t** l, droga** d, int x, int y, int* waga)
         return 0;
     l[y][x].odwiedzony = 2;
 
-
     int r = 0;
 
     if(l[y][x].prawo)
@@ -24,8 +23,6 @@ int solver(komorka_t** l, droga** d, int x, int y, int* waga)
         r = f(l, d, x, y+1, waga, l[y][x].dol);
     if(l[y][x].gora && r == 0)
         r = f(l, d, x, y-1, waga, l[y][x].gora);
-
-
     return r;
 }
 
@@ -57,6 +54,6 @@ void writer(droga* d)
             d = d->next;
             free(tmp);
         }
-        printf("\n");//
+        printf("\n");
     }
 }
