@@ -27,8 +27,8 @@ typedef struct
 typedef struct
 {
     komorka_t** l;
-    komorka_t start;
-    komorka_t stop;
+    komorka_t* start;
+    komorka_t* stop;
     lista lista;
 }labirynt;
 

@@ -5,13 +5,29 @@
 #include <stdio.h>
 #include "generacja.h"
 
-void druk(komorka_t** l, int x, int y)
+void druk(labirynt* lab, int x, int y, int tryb)
 {
+    lab->start->odwiedzony = 3;
+    komorka_t** l = lab->l;
     drukbariera(l, x, 1);
     for(int j = 1; j <= y; j++)
     {
-        drukpion_sciezka(l, x, j);
-        if(j<y) drukpoziom_sciezka(l, x, j);
+        if(tryb == 1)
+        {
+            drukpion_sciezka(l, x, j);
+            if(j<y) drukpoziom_sciezka(l, x, j);
+        }
+        else if(tryb == 2)
+        {
+            drukpion_numery(l, x, j);
+            if(j<y) drukpoziom(l, x, j);
+        }
+        else if(tryb == 0)
+        {
+            drukpion_pusty(l, x, j);
+            if(j<y) drukpoziom(l, x, j);
+        }
+
     }
     drukbariera(l, x, y);
     printf("\n");
@@ -27,7 +43,7 @@ void drukbariera(komorka_t** l, int x, int y)
     printf("\n");
 }
 
-void drukpion(komorka_t** l, int x, int y)
+void drukpion_numery(komorka_t** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
         printf("#");
@@ -48,6 +64,7 @@ void drukpion(komorka_t** l, int x, int y)
             printf("       #\n");
     }
 }
+
 void drukpion_pusty(komorka_t** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
@@ -66,20 +83,32 @@ void drukpion_pusty(komorka_t** l, int x, int y)
 
 void drukpion_sciezka(komorka_t** l, int x, int y)
 {
-    for(int j = 0; j<3; j++) {
+    int gora, dol, prawo, lewo;
+    for(int j = 0; j<3; j++)
+    {
         printf("#");
-        for (int i = 1; i < x; i++)
+        for (int i = 1; i <= x; i++)
         {
-            if(l[y][i].odwiedzony ==3)
+            if(l[y][i].odwiedzony == 3)
             {
-                if ((j == 0 && l[y][i].gora) || (j == 2 && l[y][i].dol))
+                gora = dol = prawo = lewo = 0;
+                if((l[y][i].gora && l[y-1][i].odwiedzony == 3) || l[y][i].rodzaj == START)
+                    gora = 1;
+                if((l[y][i].dol && l[y+1][i].odwiedzony == 3) || l[y][i].rodzaj == STOP)
+                    dol = 1;
+                if(l[y][i].prawo && l[y][i+1].odwiedzony == 3)
+                    prawo = 1;
+                if(l[y][i].lewo && l[y][i-1].odwiedzony == 3)
+                    lewo = 1;
+
+                if ((j == 0 && gora) || (j == 2 && dol))
                     printf("   .   ");
                 else if (j == 1)
-                    printf(l[y][i].lewo && l[y][i].prawo ? "......." : l[y][i].lewo ? "....   " : l[y][i].prawo ? "   ...." : "   .   ");
+                    printf(lewo && prawo ? "......." : lewo ? "....   " : prawo ? "   ...." : "   .   ");
                 else printf("       ");
 
                 if (l[y][i].prawo > 0)
-                    printf(j == 1 ? "." : " ");
+                    printf(j == 1 && prawo ? "." : " ");
                 else if (l[y][i].prawo == 0)
                     printf("#");
             }
@@ -92,19 +121,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
                     printf("#");
             }
         }
-        if(l[y][x].odwiedzony ==3)
-        {
-            if ((j == 0 && l[y][x].gora) || (j == 2 && l[y][x].dol))
-                printf("   .   #\n");
-            else if (j == 1)
-                printf(l[y][x].lewo ? "....   #\n" : l[y][x].prawo ? "   ....#\n" : "   .   #\n");
-            else
-                printf("       #\n");
-        }
-        else
-        {
-            printf("       #\n");
-        }
+        printf("\n");
     }
 }
 
@@ -132,7 +149,7 @@ void drukpoziom_sciezka(komorka_t** l, int x, int y)
     for(int i = 1; i <= x; i++)
     {
         if(l[y][i].dol > 0) {
-            printf(l[y][i].odwiedzony == 3 ? "   .   " : "       ");
+            printf((l[y][i].odwiedzony == 3 && l[y+1][i].odwiedzony == 3) ? "   .   " : "       ");
             if (l[y][i+1].dol == 0 || i == x + 1 || l[y][i].prawo == 0)
                 printf("#");
             else

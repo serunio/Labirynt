@@ -44,16 +44,20 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
         return 0;
 }
 
-void writer(droga* d)
+void writer(droga* d, int ostatniakomorka)
 {
     droga* tmp;
-    while(d!=NULL) {
+    printf("Przejscia: ");
+    while(d!=NULL)
+    {
+        printf("\n[%03d]", ostatniakomorka);
         for (int i = 1; i < 10 && d != NULL; i++) {
-            printf("-%d->[%d]", d->waga, d->step.numer);
+            printf("-%03d->[%03d]", d->waga, d->step.numer);
+            ostatniakomorka = d->step.numer;
             tmp = d;
             d = d->next;
             free(tmp);
         }
-        printf("\n");
     }
+    printf("\n");
 }

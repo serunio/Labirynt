@@ -6,11 +6,18 @@
 #define LABIRYNT_DRUK_H
 #include "generacja.h"
 
-void druk(komorka_t** l, int x, int y); //drukuje labirynt
+void druk(labirynt* lab, int x, int y, int tryb); //drukuje labirynt //tryb: 0 - pusty labirynt, 1 - labirynt ze sciezka, 2 - labirynt z numerami komorek
+
 void drukbariera(komorka_t** l, int x, int y); //drukuje gorna lub dolna bariere z uwzgednieniem startu i konca labiryntu
-void drukpion(komorka_t** l, int x, int y); //drukuje pionowe sciany
+
+//drukuje pionowe sciany
+void drukpion_numery(komorka_t** l, int x, int y);
 void drukpion_sciezka(komorka_t** l, int x, int y);
-void drukpoziom(komorka_t** l, int x, int y); //drukuje poziome sciany
+void drukpion_pusty(komorka_t** l, int x, int y);
+
+//drukuje poziome sciany
+void drukpoziom(komorka_t** l, int x, int y);
 void drukpoziom_sciezka(komorka_t** l, int x, int y);
+
 
 #endif //LABIRYNT_DRUK_H

@@ -41,8 +41,8 @@ labirynt tworzl(int x, int y)
     l[y-2][stop].rodzaj = STOP;
 
     labirynt1.l = l;
-    labirynt1.start = l[1][start];
-    labirynt1.stop = l[y-2][stop];
+    labirynt1.start = &l[1][start];
+    labirynt1.stop = &l[y-2][stop];
 
     return labirynt1;
 }

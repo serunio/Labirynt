@@ -17,5 +17,5 @@ typedef struct droga
 
 int solver(komorka_t**, droga**, int x, int y, int* waga);
 int f(komorka_t** l, droga** d, int x, int y, int* waga, int nowa_waga);
-void writer(droga*);
+void writer(droga*, int);
 #endif //LABIRYNT_SOLVER_H
