@@ -16,7 +16,7 @@ void help()
 }
 int main(int argc, char** argv)
 {
-   if(!strcmp(argv[1], "-h"))
+   if(argc > 1 && !strcmp(argv[1], "-h"))
    {
        help();
        return 0;
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
         help();
         return 1;
     }
-    int pusty = 0, sciezka = 0, numery = 0;
+    int pusty = 0, sciezka = 0, numery = 0, dp = 0, prim = 0;
     for(int i = 3; i < argc; i++)
     {
         if(!strcmp(argv[i], "-pusty"))
@@ -44,7 +44,18 @@ int main(int argc, char** argv)
             sciezka = 1;
         if(!strcmp(argv[i], "-numery"))
             numery = 1;
+        if(!strcmp(argv[i], "-dp"))
+            dp = 1;
+        if(!strcmp(argv[i], "-prim"))
+            prim = 1;
     }
+    if(prim && dp)
+    {
+        printf("Wybierz jeden algorytm generujacy.\n");
+        return 1;
+    }
+    if(!prim && !dp)
+        prim = 1;
     if(!pusty && !sciezka && !numery)
         sciezka = 1;
 
@@ -57,8 +68,11 @@ int main(int argc, char** argv)
     srand(seed);
 
     labirynt lab = tworzl(x + 2, y + 2);
-
-    generuj(lab.l, 1, 1, rand());
+    lab.liczba_nieodwiedzonych = x*y;
+    if(dp)
+        generujAldous_Broder(&lab, x/2 +1, y/2 +1, rand());
+    if(prim)
+        generujprim(&lab, x/2, y/2, rand());
 
     solver(lab.l, &d, lab.start->x, lab.start->y, waga);
 

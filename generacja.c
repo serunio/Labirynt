@@ -3,6 +3,7 @@
 //
 #include "generacja.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 labirynt tworzl(int x, int y)
 {
@@ -17,6 +18,7 @@ labirynt tworzl(int x, int y)
     {
         for (int j = 1; j < x - 1; j++) {
             l[i][j].odwiedzony = l[i][j].lewo = l[i][j].prawo = l[i][j].gora = l[i][j].dol = l[i][j].rodzaj = 0;
+            l[i][j].numernaliscie = -1;
             l[i][j].numer =  j + (i - 1) * (x-2);
             l[i][j].x = j;
             l[i][j].y = i;
@@ -114,66 +116,140 @@ void generujprim(labirynt* lab, int x, int y, int seed)
 {
     srand(seed);
     lab->l[y][x].odwiedzony = 1;
+
+    lab->lista.elementy = malloc(100*sizeof(komorka_t*));
+    lab->lista.rozmiar = -1;
+    lab->lista.pojemnosc = 1;
+
     dodajdolisty(lab, &lab->l[y][x]);
     int* i;
-    komorka_t* k;
-    komorka_t* n;
-    while(lab->lista.elementy[0] != NULL)
+    komorka_t* k;//losowy element z listy
+    komorka_t* n;//komorka obok losowo wybranej k
+    while(lab->lista.rozmiar != 0)
     {
         int waga = seed%100 +1 ;
-        while(1)
+        k = lab->lista.elementy[rand()%(lab->lista.rozmiar)];
+        //printf("wylosowano komorke numer %i\n", k->numer);
+        while(lab->lista.rozmiar)
         {
             i = losuj(rand());
-            k = lab->lista.elementy[rand()%(lab->lista.rozmiar+1)];
-            if(i[1] == 1 && (n = &lab->l[k->y][k->x+1])->odwiedzony == 0)
+            if(i[1] == 1 && (n = &lab->l[k->y][k->x+1])->odwiedzony == 1)
             {
                 k->prawo = n->lewo = waga;
                 break;
             } else
-            if(i[1] == -1 && (n = &lab->l[k->y][k->x-1])->odwiedzony == 0)
+            if(i[1] == -1 && (n = &lab->l[k->y][k->x-1])->odwiedzony == 1)
             {
                 k->lewo = n->prawo = waga;
                 break;
             } else
-            if(i[0] == 1 && (n = &lab->l[k->y+1][k->x])->odwiedzony == 0)
+            if(i[0] == 1 && (n = &lab->l[k->y+1][k->x]) ->odwiedzony == 1)
             {
                 k->dol = n->gora = waga;
                 break;
             } else
-            if(i[0] == -1 && (n = &lab->l[k->y-1][k->x])->odwiedzony == 0)
+            if(i[0] == -1 && (n = &lab->l[k->y-1][k->x])->odwiedzony == 1)
             {
                 k->gora = n->dol = waga;
                 break;
             }
         }
-        n->odwiedzony = 1;
-        dodajdolisty(lab, n);
-        usunzlisty(lab->lista, k);
+        //printf("kierunek: [%i][%i]\n", i[0], i[1]);
+        k->odwiedzony = 1;
+        dodajdolisty(lab, k);
+        usunzlisty(&lab->lista, k);
     }
 }
 
 void dodajdolisty(labirynt* lab, komorka_t* k)
 {
+    //if(lab->lista.rozmiar >= lab->lista.pojemnosc - 5)
+    //    lab->lista.elementy = (komorka_t**)realloc(lab->lista.elementy, (lab->lista.pojemnosc += 5) * sizeof(komorka_t*));
+    //printf("dodawanie sasiadow komorki %i\n", k->numer);
     komorka_t* n;
     if(!(n = &lab->l[k->y][k->x+1])->odwiedzony)
     {
-        lab->lista.elementy[lab->lista.rozmiar++] = n;
+        dodaj1(lab, n);
     }
     if(!(n = &lab->l[k->y][k->x-1])->odwiedzony)
     {
-        lab->lista.elementy[lab->lista.rozmiar++] = n;
+        dodaj1(lab, n);
     }
     if(!(n = &lab->l[k->y+1][k->x])->odwiedzony)
     {
-        lab->lista.elementy[lab->lista.rozmiar++] = n;
+        dodaj1(lab, n);
     }
     if(!(n = &lab->l[k->y-1][k->x])->odwiedzony)
     {
-        lab->lista.elementy[lab->lista.rozmiar++] = n;
+        dodaj1(lab, n);
     }
 }
 
-void usunzlisty(lista l, komorka_t* k)
+void dodaj1(labirynt* lab, komorka_t* n)
 {
+    n->odwiedzony = 4;
+    lab->lista.elementy[++lab->lista.rozmiar] = n;
+    n->numernaliscie = lab->lista.rozmiar;
+    //printf("dodano komorke numer %i na miejsce %i\n", n->numer, n->numernaliscie);
+}
+
+void usunzlisty(lista* l, komorka_t* k)
+{
+    //printf("usowanie komorki %i z miejsca %i\n", k->numer, k->numernaliscie);
+    int i = k->numernaliscie;
+    while(i < l->rozmiar)
+    {
+        l->elementy[i] = l->elementy[i+1];
+        l->elementy[i++]->numernaliscie--;
+    }
+    l->elementy[i] = NULL;
+    l->rozmiar--;
+}
+
+int generujAldous_Broder(labirynt* l, int x, int y, int seed)
+{
+    srand(seed);
+    komorka_t** k = l->l;
+    k[y][x].odwiedzony = 1;
+    l->liczba_nieodwiedzonych--;
+
+    int* i; //kierunek nastepnego przejscia
+    while(l->liczba_nieodwiedzonych)
+    {
+       /* if(k[y][x].odwiedzony == 1)
+        {
+            printf("%i\n", k[y][x].numer);
+            k[y][x].odwiedzony = -2;
+        }*/
+        seed = rand();
+        int waga = seed%100 +1 ;
+        i = losuj(seed);
+        //printf("[%i][%i]\n", i[0], i[1]);
+        if(k[y+i[0]][x+i[1]].odwiedzony != -1)
+        {
+            if(k[y+i[0]][x+i[1]].odwiedzony == 0)
+            {
+                k[y+i[0]][x+i[1]].odwiedzony = 1;
+                l->liczba_nieodwiedzonych--;
+                printf("%i\n", l->liczba_nieodwiedzonych);
+                if(i[1] == 1) {
+                    k[y][x].prawo =  k[y][x+1].lewo = waga;
+                } else
+                if(i[1] == -1) {
+                    k[y][x].lewo = k[y][x-1].prawo = waga;
+                } else
+                if(i[0] == 1) {
+                    k[y][x].dol = k[y+1][x].gora = waga;
+                } else
+                if(i[0] == -1) {
+                    k[y][x].gora = k[y-1][x].dol = waga;
+                }
+            }
+            y += i[0]; x += i[1];
+        }
+        free(i);
+    }
+    return 1;
+
 
 }

@@ -8,13 +8,14 @@
 #define STOP 2
 typedef struct
 {
-    int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony przez generuj(), -1 - bariera, 2 - odwiedzony przez solver(), 3 - nalezy do sciezki
+    int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony przez generuj(), -1 - bariera, 2 - odwiedzony przez solver(), 3 - nalezy do sciezki, 4 - jest na liscie(prim)
     int rodzaj; //1 - start, 2 - stop
     int numer;
     //przejścia
     int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
     int x, y; //wspolrzedne komorki
     int* set;
+    int numernaliscie;
 }komorka_t;
 
 typedef struct
@@ -30,13 +31,16 @@ typedef struct
     komorka_t* start;
     komorka_t* stop;
     lista lista;
+    int liczba_nieodwiedzonych;
 }labirynt;
 
 labirynt tworzl(int x, int y); //tworzy pusty labirynt
 int generuj(komorka_t** k, int x, int y, int seed); //funkcja rekurencyjna. tworzy przejscie do losowej komorki i wywoluje sie w niej. zwraca 1 w razie sukcesu i 0 w razie porazki
 int* losuj(int seed); //losowy kierunek przy generacji przejsc
 void dodajdolisty(labirynt* lab, komorka_t* komorka);
-void usunzlisty(lista, komorka_t* komorka);
+void usunzlisty(lista*, komorka_t* komorka);
+void dodaj1(labirynt* lab, komorka_t* n);
 void generujprim(labirynt* lab, int x, int y, int seed);
+int generujAldous_Broder(labirynt* l, int x, int y, int seed);
 
 #endif //LABIRYNT_GENERACJA_H
