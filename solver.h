@@ -9,7 +9,7 @@
 
 typedef struct droga
 {
-    komorka_t step;
+    komorka_t* step;
     struct droga* next;
     int waga;
 

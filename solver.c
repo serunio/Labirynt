@@ -32,7 +32,7 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
         if(l[y][x].rodzaj == STOP || solver(l, d, x, y, waga))
         {
             droga* new = malloc(sizeof * new);
-            new->step = l[y][x];
+            new->step = &l[y][x];
             l[y][x].odwiedzony = 3;
             new->waga = w;
             new->next = *d;
@@ -52,8 +52,8 @@ void writer(droga* d, int ostatniakomorka)
     {
         printf("\n[%03d]", ostatniakomorka);
         for (int i = 1; i < 10 && d != NULL; i++) {
-            printf("-%03d->[%03d]", d->waga, d->step.numer);
-            ostatniakomorka = d->step.numer;
+            printf("-%03d->[%03d]", d->waga, d->step->numer);
+            ostatniakomorka = d->step->numer;
             tmp = d;
             d = d->next;
             free(tmp);

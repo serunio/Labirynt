@@ -14,7 +14,7 @@ typedef struct
     //przejścia
     int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
     int x, y; //wspolrzedne komorki
-    int* set;
+   // int* set;
     int numernaliscie;
 }komorka_t;
 
@@ -32,15 +32,16 @@ typedef struct
     komorka_t* stop;
     lista lista;
     int liczba_nieodwiedzonych;
+    int x, y; //wymiary
 }labirynt;
 
 labirynt tworzl(int x, int y); //tworzy pusty labirynt
 int generuj(komorka_t** k, int x, int y, int seed); //funkcja rekurencyjna. tworzy przejscie do losowej komorki i wywoluje sie w niej. zwraca 1 w razie sukcesu i 0 w razie porazki
+
 int* losuj(int seed); //losowy kierunek przy generacji przejsc
-void dodajdolisty(labirynt* lab, komorka_t* komorka);
-void usunzlisty(lista*, komorka_t* komorka);
-void dodaj1(labirynt* lab, komorka_t* n);
-void generujprim(labirynt* lab, int x, int y, int seed);
+
 int generujAldous_Broder(labirynt* l, int x, int y, int seed);
 
+void usunzlisty(lista*, komorka_t* komorka);
+void dodajdolisty(labirynt* lab, komorka_t* n);
 #endif //LABIRYNT_GENERACJA_H

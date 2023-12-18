@@ -7,8 +7,10 @@
 #include <string.h>
 
 #include "generacja.h"
+#include "prim.h"
 #include "solver.h"
 #include "druk.h"
+#include "wilson.h"
 
 void help()
 {
@@ -70,7 +72,7 @@ int main(int argc, char** argv)
     labirynt lab = tworzl(x + 2, y + 2);
     lab.liczba_nieodwiedzonych = x*y;
     if(dp)
-        generujAldous_Broder(&lab, x/2 +1, y/2 +1, rand());
+        generacjawilson(&lab, seed);
     if(prim)
         generujprim(&lab, x/2, y/2, rand());
 
