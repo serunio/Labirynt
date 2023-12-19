@@ -7,13 +7,14 @@
 
 void druk(labirynt* lab, int x, int y, int tryb)
 {
-    lab->start->odwiedzony = 3;
     komorka_t** l = lab->l;
+    printf("\n");
     drukbariera(l, x, 1);
     for(int j = 1; j <= y; j++)
     {
         if(tryb == 1)
         {
+            lab->start->odwiedzony = 3;
             drukpion_sciezka(l, x, j);
             if(j<y) drukpoziom_sciezka(l, x, j);
         }

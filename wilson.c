@@ -3,9 +3,11 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "wilson.h"
 #include "generacja.h"
 #include "solver.h"
+#include "druk.h"
 
 void generacjawilson(labirynt* lab, int seed)
 {
@@ -21,65 +23,83 @@ void generacjawilson(labirynt* lab, int seed)
     }
     komorka_t* k = lab->lista.elementy[rand()%(lab->lista.rozmiar)];
     k->odwiedzony = 1;
+    //printf("dodano %i", k->numer);
     usunzlisty(&lab->lista, k);
-    while(lab->lista.rozmiar > 0)
+    int r;
+    int a = 1;
+    while((r = lab->lista.rozmiar) >= 0)
     {
+        //printf("\nrozmiar listy: %i\n", r);
         seed = rand();
         //losuj komorke z listy
-        komorka_t* n = lab->lista.elementy[rand()%(lab->lista.rozmiar)];
-
+        komorka_t* n = r > 0 ? lab->lista.elementy[rand()%(lab->lista.rozmiar)] : lab->lista.elementy[0];
+        n->odwiedzony = 3;
+        usunzlisty(&lab->lista, n);
+        //printf(", ide od %i", n->numer);
         //idz losowo az znajdziesz odwiedzona komorke
-        printf("\nSzukam %i. Przejscie: ", k->numer);
+       // printf("\nPrzejscie: ");
         randomwalk(lab, n->x, n->y, seed);
+        n->odwiedzony = 1;
 
+       // if(a==1)
+        //    druk(lab, 20, 20, 2);
+       // a--;
     }
 }
 
 void randomwalk(labirynt* lab, int x, int y, int seed)
 {
     srand(seed);
+
     droga* d = malloc(sizeof(*d));
     komorka_t* k = &lab->l[y][x]; //aktualna
     komorka_t* n; //nastepna
     d->step = k;
     int* i;
+    int a = 1000;
     while(k->odwiedzony != 1)
     {
-        seed = rand();
-        //wybranie kierunku
-        i = losuj(seed);
-        n = &lab->l[k->y+i[0]][k->x+i[1]];
-        printf(" %i ", n->numer);
-        //sprawdzenie czy to nie sciana, jak tak to wybranie jeszcze raz
-        if(n->odwiedzony == -1)
-        {
-            printf(" | ");
-            continue;
-        }
-        //sprawdzenie czy to pętla
-        if(n->odwiedzony == 3)
-        {
-            printf("o");
-            //jeżeli to pętla to cofamy sie po drodze az do tej komorki i jedziemy dalej
-            while(d->step->numer != n->numer)
+            a--;
+            if(a == 0) {srand(seed); a = 1000;}
+            seed = rand();
+            //wybranie kierunku
+            i = losuj(seed);
+            n = &lab->l[k->y+i[0]][k->x+i[1]];
+            //printf(" %i ", n->numer);
+            //sprawdzenie czy to nie sciana, jak tak to wybranie jeszcze raz
+            if(n->odwiedzony == -1)
             {
-                d->step->odwiedzony = 0;
-                d = d->next;
+            //    printf(" | ");
+                continue;
             }
-            k = n;
-        }
-        else
-        {
-            //jeżeli to nie pętla to dodajemy komorke do drogi i jedziemy od niej dalej
-            printf(" + ");
-            droga* new = malloc(sizeof * new);
-            k = n;
-            if(k->odwiedzony != 1)
-                k->odwiedzony = 3;
-            new->step = k;
-            new->next = d;
-            d = new;
-        }
+            //sprawdzenie czy to pętla
+            if(n->odwiedzony == 3)
+            {
+                //seed++;
+                //srand(seed);
+
+              //  printf("o");
+                //jeżeli to pętla to cofamy sie po drodze az do tej komorki i jedziemy dalej
+                while(d->step->numer != n->numer)
+                {
+                    d->step->odwiedzony = 0;
+                    d = d->next;
+                }
+                k = n;
+            }
+            else {
+                //jeżeli to nie pętla to dodajemy komorke do drogi i jedziemy od niej dalej
+              //  printf(" + ");
+                droga *new = malloc(sizeof *new);
+                k = n;
+                if (k->odwiedzony != 1)
+                    k->odwiedzony = 3;
+                new->step = k;
+                new->next = d;
+                d = new;
+            }
+
+
     }
    while(d->step->numer != lab->l[y][x].numer)
    {
@@ -87,6 +107,7 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
        komorka_t* a = d->step;
        komorka_t* b = d->next->step;
        a->odwiedzony = 1;
+       //printf("\ndodano %i", a->numer);
        usunzlisty(&lab->lista, a);
        i[0] = b->y - a->y;
        i[1] = b->x - a->x;

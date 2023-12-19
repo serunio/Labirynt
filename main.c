@@ -37,7 +37,7 @@ int main(int argc, char** argv)
         help();
         return 1;
     }
-    int pusty = 0, sciezka = 0, numery = 0, dp = 0, prim = 0;
+    int pusty = 0, sciezka = 0, numery = 0, dp = 0, prim = 0, wilson = 0;
     for(int i = 3; i < argc; i++)
     {
         if(!strcmp(argv[i], "-pusty"))
@@ -50,18 +50,21 @@ int main(int argc, char** argv)
             dp = 1;
         if(!strcmp(argv[i], "-prim"))
             prim = 1;
+        if(!strcmp(argv[i], "-wilson"))
+            wilson = 1;
     }
-    if(prim && dp)
+    if(prim + dp + wilson > 1)
     {
         printf("Wybierz jeden algorytm generujacy.\n");
         return 1;
     }
-    if(!prim && !dp)
-        prim = 1;
+    if(!prim && !dp && !wilson)
+        wilson = 1;
     if(!pusty && !sciezka && !numery)
         sciezka = 1;
 
     int seed =  (int)time(NULL);
+    printf("%i\n", seed);
     int* waga = calloc(1, sizeof * waga);
     droga* d = NULL;
 
@@ -70,11 +73,15 @@ int main(int argc, char** argv)
     srand(seed);
 
     labirynt lab = tworzl(x + 2, y + 2);
+
     lab.liczba_nieodwiedzonych = x*y;
-    if(dp)
+
+    if(wilson)
         generacjawilson(&lab, seed);
     if(prim)
         generujprim(&lab, x/2, y/2, rand());
+    if(dp)
+        generuj(lab.l, x/2, y/2, rand());
 
     solver(lab.l, &d, lab.start->x, lab.start->y, waga);
 

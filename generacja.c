@@ -14,27 +14,28 @@ labirynt tworzl(int x, int y)
         l[i] = (komorka_t*)malloc(x*sizeof(komorka_t));
 
     //ustawienie zmiennych we wszystkich komorkach na domyslna wartosc
-    for(int i = 1; i < y-1; i++)
+    for(int i = 0; i < y; i++)
     {
-        for (int j = 1; j < x - 1; j++) {
+        for (int j = 0; j < x; j++) {
             l[i][j].odwiedzony = l[i][j].lewo = l[i][j].prawo = l[i][j].gora = l[i][j].dol = l[i][j].rodzaj = 0;
             l[i][j].numernaliscie = -1;
-            l[i][j].numer =  j + (i - 1) * (x-2);
+            l[i][j].numer =  j + (i-1) * (x-2);
             l[i][j].x = j;
             l[i][j].y = i;
+
         }
 
     }
     //ustawienie barier na brzegach aby funkcja generuj tam nie wchodzila
     for(int i = 0; i < y; i++)
     {
-        l[i][0].odwiedzony = -1;
-        l[i][x-1].odwiedzony = -1;
+        l[i][0].odwiedzony = l[i][0].numer = -1;
+        l[i][x-1].odwiedzony = l[i][x-1].numer = -1;
     }
     for(int i = 0; i < x; i++)
     {
-        l[0][i].odwiedzony = -1;
-        l[y-1][i].odwiedzony = -1;
+        l[0][i].odwiedzony = l[0][i].numer = -1;
+        l[y-1][i].odwiedzony = l[y-1][i].numer = -1;
     }
 
     //wybor komorek startowej i koncowej
@@ -124,14 +125,19 @@ void dodajdolisty(labirynt* lab, komorka_t* n)
 
 void usunzlisty(lista* l, komorka_t* k)
 {
-    //printf("usowanie komorki %i z miejsca %i\n", k->numer, k->numernaliscie);
-    int i = k->numernaliscie;
-    while (i < l->rozmiar) {
-        l->elementy[i] = l->elementy[i + 1];
-        l->elementy[i++]->numernaliscie--;
+    if(k->numernaliscie <= l->rozmiar)
+    {
+        //printf("usowanie komorki %i z miejsca %i\n", k->numer, k->numernaliscie);
+        int i = k->numernaliscie;
+        k->numernaliscie = l->rozmiar+1;
+        while (i < l->rozmiar) {
+            l->elementy[i] = l->elementy[i + 1];
+            l->elementy[i++]->numernaliscie--;
+        }
+        l->elementy[i] = NULL;
+        l->rozmiar--;
     }
-    l->elementy[i] = NULL;
-    l->rozmiar--;
+
 }
 
 int generujAldous_Broder(labirynt* l, int x, int y, int seed)
