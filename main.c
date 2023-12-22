@@ -83,12 +83,18 @@ int start(int argc, char** argv)
 {
     if (argc < 3)
     {
-        printf("Podaj wymiary labiryntu\n");
-        help();
-        return 1;
+        srand(time(NULL));
+        x = rand()%29 + 2; //losowe
+        y = rand()%29 + 2; //wymiary
+        printf("Wybrano losowe wymiary labiryntu: %ix%i\n", x, y);
+        helps = 1;
     }
-    x = atoi(argv[1]);  //wymiary
-    y = atoi(argv[2]);  //labiryntu
+    else
+    {
+        x = atoi(argv[1]);  //wymiary
+        y = atoi(argv[2]);  //labiryntu
+    }
+
     if(x<=1 || y<=1 || x>30 || y>30)
     {
         printf("Podano nieprawidlowe wymiary\n");
