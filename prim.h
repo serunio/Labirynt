@@ -5,6 +5,6 @@
 
 void dodajsasiadow(labirynt* lab, komorka_t* komorka);
 
-void generujprim(labirynt* lab, int x, int y, int seed);
+void generacja_prim(labirynt* lab, int x, int y, int seed);
 
 #endif //LABIRYNT_PRIM_H

@@ -37,7 +37,6 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
             new->waga = w;
             new->next = *d;
             *d = new;
-           // printf("%p\n", d);
             return *waga;
         }
         *waga -= w;
@@ -47,7 +46,7 @@ int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
 void writer(droga* d, int ostatniakomorka)
 {
     droga* tmp;
-    printf("Przejscia: ");
+    printf("Przejscie: ");
     while(d!=NULL)
     {
         printf("\n[%03d]", ostatniakomorka);

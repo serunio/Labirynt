@@ -1,49 +1,58 @@
 
 #include "prim.h"
 #include "stdlib.h"
-void generujprim(labirynt* lab, int x, int y, int seed)
+#include <stdio.h>
+void generacja_prim(labirynt* lab, int x, int y, int seed)
 {
     srand(seed);
-    lab->l[y][x].odwiedzony = 1;
+    lab->l[y][x].odwiedzony = 1;                                  //pierwsza komorka ozanaczona jako odwiedzona
 
-    lab->lista.elementy = malloc(100*sizeof(komorka_t*));
+    lab->lista.elementy = malloc(100*sizeof(komorka_t*));    //stworzona lista na komorki sąsiadujące z odwiedzonymi
     lab->lista.rozmiar = -1;
-    lab->lista.pojemnosc = 1;
 
-    dodajsasiadow(lab, &lab->l[y][x]);
+    dodajsasiadow(lab, &lab->l[y][x]);                   //dodanie sąsiadow pierwszej komórki do listy
     int* i;
-    komorka_t* k;//losowy element z listy
-    komorka_t* n;//komorka obok losowo wybranej k
-    while(lab->lista.rozmiar != 0)
+    komorka_t* k;       //losowy element z listy
+    komorka_t* n;       //losowa komorka obok losowo wybranego k
+    int r;
+    while((r = lab->lista.rozmiar) >= 0)
     {
-        int waga = seed%100 +1 ;
-        k = lab->lista.elementy[rand()%(lab->lista.rozmiar)];
-        //printf("wylosowano komorke numer %i\n", k->numer);
-        while(lab->lista.rozmiar)
+        int waga = seed%100 +1 ;    //losowa waga z zakresu 1-100
+        k = r > 0 ? lab->lista.elementy[rand()%(lab->lista.rozmiar)] : lab->lista.elementy[0];
+
+        int a = 1000;
+        while(r >= 0)   //pętla tworzy przejście między losowo wybranym elementem z listy (nieodwiedzonym) a sąsiadującą z nim komórką labiryntu
         {
+            a--;
+            if(a == 0){srand(rand()); a = 1000;}
+
             i = losuj(rand());
-            if(i[1] == 1 && (n = &lab->l[k->y][k->x+1])->odwiedzony == 1)
+            n = &lab->l[k->y+i[0]][k->x+i[1]];
+            if(n->odwiedzony == 1)
             {
-                k->prawo = n->lewo = waga;
-                break;
-            } else
-            if(i[1] == -1 && (n = &lab->l[k->y][k->x-1])->odwiedzony == 1)
-            {
-                k->lewo = n->prawo = waga;
-                break;
-            } else
-            if(i[0] == 1 && (n = &lab->l[k->y+1][k->x]) ->odwiedzony == 1)
-            {
-                k->dol = n->gora = waga;
-                break;
-            } else
-            if(i[0] == -1 && (n = &lab->l[k->y-1][k->x])->odwiedzony == 1)
-            {
-                k->gora = n->dol = waga;
-                break;
+                if(i[1] == 1)
+                {
+                    k->prawo = n->lewo = waga;
+                    break;
+                } else
+                if(i[1] == -1)
+                {
+                    k->lewo = n->prawo = waga;
+                    break;
+                } else
+                if(i[0] == 1)
+                {
+                    k->dol = n->gora = waga;
+                    break;
+                } else
+                if(i[0] == -1)
+                {
+                    k->gora = n->dol = waga;
+                    break;
+                }
             }
+            free(i);
         }
-        //printf("kierunek: [%i][%i]\n", i[0], i[1]);
         k->odwiedzony = 1;
         dodajsasiadow(lab, k);
         usunzlisty(&lab->lista, k);
@@ -52,9 +61,6 @@ void generujprim(labirynt* lab, int x, int y, int seed)
 
 void dodajsasiadow(labirynt* lab, komorka_t* k)
 {
-    //if(lab->lista.rozmiar >= lab->lista.pojemnosc - 5)
-    //    lab->lista.elementy = (komorka_t**)realloc(lab->lista.elementy, (lab->lista.pojemnosc += 5) * sizeof(komorka_t*));
-    //printf("dodawanie sasiadow komorki %i\n", k->numer);
     komorka_t* n;
     if(!(n = &lab->l[k->y][k->x+1])->odwiedzony)
     {

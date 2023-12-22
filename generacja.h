@@ -21,7 +21,6 @@ typedef struct
 typedef struct
 {
     komorka_t** elementy;
-    int pojemnosc;
     int rozmiar;
 }lista;
 
@@ -31,16 +30,12 @@ typedef struct
     komorka_t* start;
     komorka_t* stop;
     lista lista;
-    int liczba_nieodwiedzonych;
     int x, y; //wymiary
 }labirynt;
 
 labirynt tworzl(int x, int y); //tworzy pusty labirynt
-int generuj(komorka_t** k, int x, int y, int seed); //funkcja rekurencyjna. tworzy przejscie do losowej komorki i wywoluje sie w niej. zwraca 1 w razie sukcesu i 0 w razie porazki
 
 int* losuj(int seed); //losowy kierunek przy generacji przejsc
-
-int generujAldous_Broder(labirynt* l, int x, int y, int seed);
 
 void usunzlisty(lista*, komorka_t* komorka);
 void dodajdolisty(labirynt* lab, komorka_t* n);
