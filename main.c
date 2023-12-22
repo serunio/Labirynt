@@ -1,6 +1,3 @@
-//
-// Created by jakub on 11/24/23.
-//
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -25,11 +22,10 @@ int main(int argc, char** argv)
         return 0;
 
     int seed = (int)time(NULL);
+    srand(seed);
 
     int waga = 0;
     droga* d = NULL;
-
-    srand(seed);
 
     labirynt lab = tworzl(x + 2, y + 2);
 
@@ -38,9 +34,9 @@ int main(int argc, char** argv)
     if(prim)
         generacja_prim(&lab, x/2 + 1, y/2 + 1, rand());
     if(dfs)
-        generacja_dfs(lab.l, x/2 + 1, y/2 + 1, rand());
+        generacja_dfs(lab.komorki, x/2 + 1, y/2 + 1, rand());
 
-    solver(lab.l, &d, lab.start->x, lab.start->y, &waga);
+    solver(lab.komorki, &d, lab.start->x, lab.start->y, &waga);
 
     if(pusty)
         druk(&lab, x, y, 0);
@@ -51,7 +47,11 @@ int main(int argc, char** argv)
         druk(&lab, x, y, 2);
         writer(d, lab.start->numer);
     }
-    printf("Suma wag wszystkich przejsc: %d\n\n", waga);
+    printf("Suma wag na calym przejsciu: %d\n\n", waga);
+
+    for(int i = y+1; i >= 0; i--)
+        free(lab.komorki[i]);
+    free(lab.komorki);
     return 0;
 }
 

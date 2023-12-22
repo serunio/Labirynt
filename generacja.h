@@ -1,7 +1,3 @@
-//
-// Created by jakub on 11/24/23.
-//
-
 #ifndef LABIRYNT_GENERACJA_H
 #define LABIRYNT_GENERACJA_H
 #define START 1
@@ -14,7 +10,6 @@ typedef struct
     //przejścia
     int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
     int x, y; //wspolrzedne komorki
-   // int* set;
     int numernaliscie;
 }komorka_t;
 
@@ -26,7 +21,7 @@ typedef struct
 
 typedef struct
 {
-    komorka_t** l;
+    komorka_t** komorki;
     komorka_t* start;
     komorka_t* stop;
     lista lista;
@@ -37,6 +32,6 @@ labirynt tworzl(int x, int y); //tworzy pusty labirynt
 
 int* losuj(int seed); //losowy kierunek przy generacji przejsc
 
-void usunzlisty(lista*, komorka_t* komorka);
-void dodajdolisty(labirynt* lab, komorka_t* n);
+void usunzlisty(lista*, komorka_t*);
+void dodajdolisty(lista*, komorka_t*);
 #endif //LABIRYNT_GENERACJA_H

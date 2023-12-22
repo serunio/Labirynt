@@ -1,9 +1,5 @@
-//
-// Created by jakub on 11/24/23.
-//
 #include "generacja.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 labirynt tworzl(int x, int y)
 {
@@ -43,7 +39,7 @@ labirynt tworzl(int x, int y)
     l[y-2][stop].rodzaj = STOP;
 
     labirynt1.x = x-2; labirynt1.y = y-2;
-    labirynt1.l = l;
+    labirynt1.komorki = l;
     labirynt1.start = &l[1][start];
     labirynt1.stop = &l[y-2][stop];
 
@@ -61,11 +57,11 @@ int* losuj(int seed)
     return i;
 }
 
-void dodajdolisty(labirynt* lab, komorka_t* n)
+void dodajdolisty(lista* l, komorka_t* n)
 {
     n->odwiedzony = 4;
-    lab->lista.elementy[++lab->lista.rozmiar] = n;
-    n->numernaliscie = lab->lista.rozmiar;
+    l->elementy[++l->rozmiar] = n;
+    n->numernaliscie = l->rozmiar;
 }
 
 void usunzlisty(lista* l, komorka_t* k)

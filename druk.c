@@ -7,7 +7,7 @@
 
 void druk(labirynt* lab, int x, int y, int tryb)
 {
-    komorka_t** l = lab->l;
+    komorka_t** l = lab->komorki;
     printf("\n");
     drukbariera(l, x, 1);
     for(int j = 1; j <= y; j++)
