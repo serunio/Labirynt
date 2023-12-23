@@ -1,7 +1,3 @@
-//
-// Created by cheese on 06.12.2023.
-//
-
 #ifndef LABIRYNT_SOLVER_H
 #define LABIRYNT_SOLVER_H
 

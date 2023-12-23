@@ -1,6 +1,3 @@
-//
-// Created by cheese on 06.12.2023.
-//
 #include "solver.h"
 #include "generacja.h"
 #include <stdlib.h>

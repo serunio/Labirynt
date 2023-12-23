@@ -95,7 +95,7 @@ int start(int argc, char** argv)
         y = atoi(argv[2]);  //labiryntu
     }
 
-    if(x<=1 || y<=1 || x>30 || y>30)
+    if(x < 2 || y < 2 || x > 30 || y > 30)
     {
         printf("Podano nieprawidlowe wymiary\n");
         help();
@@ -103,7 +103,7 @@ int start(int argc, char** argv)
     }
 
     //wybór ustawień
-    for(int i = 3; i < argc; i++)
+    for(int i = 1; i < argc; i++)
     {
         if(!strcmp(argv[i], "-pusty"))
             pusty = 1;
