@@ -1,6 +1,3 @@
-//
-// Created by cheese on 19.12.2023.
-//
 
 #ifndef LABIRYNT_DFS_H
 #define LABIRYNT_DFS_H

@@ -2,7 +2,7 @@
 
 #ifndef LABIRYNT_WILSON_H
 #define LABIRYNT_WILSON_H
-#include "generacja.h"
+#include "labirynt.h"
 
 void generacja_wilson(labirynt*, int seed);
 

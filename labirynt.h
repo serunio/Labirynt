@@ -28,6 +28,14 @@ typedef struct
     int x, y; //wymiary
 }labirynt;
 
+typedef struct droga
+{
+    komorka_t* step;
+    struct droga* next;
+    int waga;
+
+}droga;
+
 labirynt tworzl(int x, int y); //tworzy pusty labirynt
 
 int* losuj(int seed); //losowy kierunek przy generacji przejsc

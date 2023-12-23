@@ -4,7 +4,7 @@
 
 #ifndef LABIRYNT_DRUK_H
 #define LABIRYNT_DRUK_H
-#include "generacja.h"
+#include "labirynt.h"
 
 void druk(labirynt* lab, int x, int y, int tryb); //drukuje labirynt //tryb: 0 - pusty labirynt, 1 - labirynt ze sciezka, 2 - labirynt z numerami komorek
 

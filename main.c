@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "generacja.h"
+#include "labirynt.h"
 #include "prim.h"
 #include "solver.h"
 #include "druk.h"

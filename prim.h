@@ -1,7 +1,7 @@
 #ifndef LABIRYNT_PRIM_H
 #define LABIRYNT_PRIM_H
 
-#include "generacja.h"
+#include "labirynt.h"
 
 void dodajsasiadow(labirynt* lab, komorka_t* komorka);
 

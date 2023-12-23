@@ -3,7 +3,7 @@
 //
 #include "druk.h"
 #include <stdio.h>
-#include "generacja.h"
+#include "labirynt.h"
 
 void druk(labirynt* lab, int x, int y, int tryb)
 {

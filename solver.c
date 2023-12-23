@@ -1,5 +1,4 @@
 #include "solver.h"
-#include "generacja.h"
 #include <stdlib.h>
 #include <stdio.h>
 

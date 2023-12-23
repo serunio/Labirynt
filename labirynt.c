@@ -1,4 +1,4 @@
-#include "generacja.h"
+#include "labirynt.h"
 #include <stdlib.h>
 
 labirynt tworzl(int x, int y)

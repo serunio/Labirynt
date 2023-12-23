@@ -2,8 +2,7 @@
 #include <stdlib.h>
 
 #include "wilson.h"
-#include "generacja.h"
-#include "solver.h"
+#include "labirynt.h"
 
 void generacja_wilson(labirynt* lab, int seed)
 {

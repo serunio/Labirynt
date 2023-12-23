@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "generacja.h"
+#include "labirynt.h"
 
 int generacja_dfs(komorka_t** k, int x, int y, int seed)
 {
