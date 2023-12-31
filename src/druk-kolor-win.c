@@ -1,7 +1,7 @@
 //
 // Created by cheese on 26.11.2023.
 //
-#ifdef unix || __APPLE__
+#ifdef _WIN32
 #include "druk.h"
 #include <stdio.h>
 #include "labirynt.h"
@@ -37,10 +37,10 @@ void druk(labirynt* lab, int x, int y, int tryb)
 
 void drukbariera(komorka_t** l, int x, int y)
 {
-    printf("\033[107m#\033[0m");
+    printf("[47m#[0m");
     for(int i = 1; i <= x; i++)
     {
-        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       \033[107m#\033[0m" : "\033[107m########\033[0m");
+        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       [47m#\033[0m" : "[47m########[0m");
     }
     printf("\n");
 }
@@ -162,4 +162,4 @@ void drukpoziom_sciezka(komorka_t** l, int x, int y)
     }
     printf("\n");
 }
-#endif //ifdef unix
+#endif //ifdef _WIN32
