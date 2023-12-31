@@ -1,3 +1,0 @@
-/home/jakub/Desktop/C/pinf/Labirynt/src/cmake-build-debug/CMakeFiles/src.dir
-/home/jakub/Desktop/C/pinf/Labirynt/src/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/jakub/Desktop/C/pinf/Labirynt/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
