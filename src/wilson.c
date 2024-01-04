@@ -30,6 +30,7 @@ void generacja_wilson(labirynt* lab, int seed)
         usunzlisty(lista, n);
         //idz losowo az znajdziesz odwiedzona komorke
         randomwalk(lab, n->x, n->y, seed);
+
         n->odwiedzony = 1;
     }
     free(lista->elementy);
@@ -45,10 +46,12 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
     d->step = k;
     int* i;
     int a = 1000;
+    int b = a;
     while(k->odwiedzony != 1)
     {
+
             a--;
-            if(a == 0) {srand(seed); a = 1000;} //odświeżenie rand zapobiegające zapętleniom
+            if(a == 0) {srand(seed); a = b--;} //odświeżenie rand zapobiegające zapętleniom
             seed = rand();
 
             //wybranie kierunku

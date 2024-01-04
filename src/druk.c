@@ -39,10 +39,10 @@ void druk(labirynt* lab, int x, int y, int tryb)
 void drukbariera(komorka_t** l, int x, int y)
 {
 
-    printf("\033[47m \033[40m");
+    printf("\033[47m#\033[40m");
     for(int i = 1; i <= x; i++)
     {
-        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       \033[47m \033[40m" : "\033[47m        \033[40m");
+        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       \033[47m#\033[40m" : "\033[47m########\033[40m");
     }
     printf("\033[0m");
     printf("\n");
@@ -51,7 +51,7 @@ void drukbariera(komorka_t** l, int x, int y)
 void drukpion_numery(komorka_t** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
-        printf("\033[47m \033[40m");
+        printf("\033[47m#\033[40m");
         for (int i = 1; i < x; i++)
         {
             if(j==1)
@@ -61,28 +61,28 @@ void drukpion_numery(komorka_t** l, int x, int y)
             if (l[y][i].prawo >  0)
                 printf(" ");
             else if (l[y][i].prawo == 0)
-                printf("\033[47m \033[40m");
+                printf("\033[47m#\033[40m");
         }
         if(j==1)
-            printf(" %3d   \033[47m \033[0m\n",x+(y-1)*x);
+            printf(" %3d   \033[47m#\033[0m\n",x+(y-1)*x);
         else
-            printf("       \033[47m \033[0m\n");
+            printf("       \033[47m#\033[0m\n");
     }
 }
 
 void drukpion_pusty(komorka_t** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
-        printf("\033[47m \033[40m");
+        printf("\033[47m#\033[40m");
         for (int i = 1; i < x; i++)
         {
                 printf("       ");
             if (l[y][i].prawo >  0)
                 printf(" ");
             else if (l[y][i].prawo == 0)
-                printf("\033[47m \033[40m");
+                printf("\033[47m#\033[40m");
         }
-            printf("       \033[47m \033[0m\n");
+            printf("       \033[47m#\033[0m\n");
     }
 }
 
@@ -91,7 +91,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
     int gora, dol, prawo, lewo;
     for(int j = 0; j<3; j++)
     {
-        printf("\033[47m \033[40m");
+        printf("\033[47m#\033[40m");
         for (int i = 1; i <= x; i++)
         {
             if(l[y][i].odwiedzony == 3)
@@ -115,7 +115,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
                 if (l[y][i].prawo > 0)
                     printf(j == 1 && prawo ? "." : " ");
                 else if (l[y][i].prawo == 0)
-                    printf("\033[47m \033[40m");
+                    printf("\033[47m#\033[40m");
             }
             else
             {
@@ -123,7 +123,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
                 if (l[y][i].prawo > 0)
                     printf(" ");
                 else if (l[y][i].prawo == 0)
-                    printf("\033[47m \033[40m");
+                    printf("\033[47m#\033[40m");
             }
         }
         printf("\033[0m");
@@ -133,18 +133,18 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
 
 void drukpoziom(komorka_t** l, int x, int y)
 {
-    printf("\033[47m \033[40m");
+    printf("\033[47m#\033[40m");
     for(int i = 1; i <= x; i++)
     {
         if(l[y][i].dol > 0) {
             printf("       ");
             if (l[y][i+1].dol == 0 || i == x + 1 || l[y][i].prawo == 0)
-                printf("\033[47m \033[40m");
+                printf("\033[47m#\033[40m");
             else
                 printf(" ");
         }
         else if(l[y][i].dol == 0)
-            printf("\033[47m        \033[40m");
+            printf("\033[47m########\033[40m");
     }
     printf("\033[0m");
     printf("\n");
@@ -152,18 +152,18 @@ void drukpoziom(komorka_t** l, int x, int y)
 
 void drukpoziom_sciezka(komorka_t** l, int x, int y)
 {
-    printf("\033[47m \033[40m");
+    printf("\033[47m#\033[40m");
     for(int i = 1; i <= x; i++)
     {
         if(l[y][i].dol > 0) {
             printf((l[y][i].odwiedzony == 3 && l[y+1][i].odwiedzony == 3) ? "   .   " : "       ");
             if (l[y][i+1].dol == 0 || i == x + 1 || l[y][i].prawo == 0)
-                printf("\033[47m \033[40m");
+                printf("\033[47m#\033[40m");
             else
                 printf(" ");
         }
         else if(l[y][i].dol == 0)
-            printf("\033[47m        \033[40m");
+            printf("\033[47m########\033[40m");
     }
     printf("\033[0m");
     printf("\n");
