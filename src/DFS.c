@@ -3,34 +3,34 @@
 #include "DFS.h"
 #include "labirynt.h"
 
-int generacja_dfs(komorka_t** k, int x, int y, int seed)
+int generacja_dfs(komorka** l, int x, int y, int seed)
 {
+    //sprawdza czy komorka jest nieodwiedzona
+    if(l[y][x].status != 0)
+        return 0;
+    l[y][x].status = 1;
+
     srand(seed);
 
-    //sprawdza czy komorka jest nieodwiedzona
-    if(k[y][x].odwiedzony != 0)
-        return 0;
-    k[y][x].odwiedzony = 1;
-
     int* i; //losowy kierunek następnego przejścia
-    while(!k[y+1][x].odwiedzony || !k[y-1][x].odwiedzony || !k[y][x+1].odwiedzony || !k[y][x-1].odwiedzony)
+    while(!l[y + 1][x].status || !l[y - 1][x].status || !l[y][x + 1].status || !l[y][x - 1].status)
     {
         seed = rand();
-        int waga = seed%100 +1; //losowa waga w zakresie 1-100
+        float waga = (float)(seed%1000 +1)/100; //losowa waga w zakresie 0-10
         i = losuj(seed);
-        if(generacja_dfs(k, x+i[1], y+i[0], seed))
+        if(generacja_dfs(l, x + i[1], y + i[0], seed))
         {
             if(i[1] == 1) {
-                k[y][x].prawo = k[y][x+1].lewo = waga;
+                l[y][x].prawo = l[y][x + 1].lewo = waga;
             } else
             if(i[1] == -1) {
-                k[y][x].lewo = k[y][x-1].prawo = waga;
+                l[y][x].lewo = l[y][x - 1].prawo = waga;
             } else
             if(i[0] == 1) {
-                k[y][x].dol = k[y+1][x].gora = waga;
+                l[y][x].dol = l[y + 1][x].gora = waga;
             } else
             if(i[0] == -1) {
-                k[y][x].gora = k[y-1][x].dol = waga;
+                l[y][x].gora = l[y - 1][x].dol = waga;
             }
         }
         free(i);

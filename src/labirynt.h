@@ -4,41 +4,39 @@
 #define STOP 2
 typedef struct
 {
-    int odwiedzony; //0 - nieodwiedzony, 1 - odwiedzony przez generuj(), -1 - bariera, 2 - odwiedzony przez solver(), 3 - nalezy do sciezki, 4 - jest na liscie(prim)
+    int status; // -1 - bariera, 0 - nieodwiedzony, 1 - odwiedzony przez funkcje generującą, 2 - odwiedzony przez solver(), 3 - nalezy do sciezki, 4 - jest na liscie(prim)
     int rodzaj; //1 - start, 2 - stop
     int numer;
-    //przejścia
-    int gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
+    float gora, dol, prawo, lewo; //wagi przejsc (0 to brak przejscia czyli sciana)
     int x, y; //wspolrzedne komorki
     int numernaliscie;
-}komorka_t;
+}komorka;
 
 typedef struct
 {
-    komorka_t** elementy;
+    komorka** elementy;
     int rozmiar;
 }lista;
 
 typedef struct
 {
-    komorka_t** komorki;
-    komorka_t* start;
-    komorka_t* stop;
+    komorka** komorki;
+    komorka *start, *stop;
     lista lista;
     int x, y; //wymiary
 }labirynt;
 
 typedef struct droga
 {
-    komorka_t* step;
+    komorka* step;
     struct droga* next;
-    int waga;
+    float waga;
 }droga;
 
-labirynt tworzl(int x, int y); //tworzy pusty labirynt
+labirynt tworzl(int x, int y); //tworzy labirynt bez przejsc o wymiarach x i y
 
 int* losuj(int seed); //losowy kierunek przy generacji przejsc
 
-void usunzlisty(lista*, komorka_t*);
-void dodajdolisty(lista*, komorka_t*);
+void usunzlisty(lista*, komorka*);
+void dodajdolisty(lista*, komorka*);
 #endif //LABIRYNT_GENERACJA_H

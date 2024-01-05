@@ -1,36 +1,36 @@
 #include "prim.h"
-#include "stdlib.h"
+#include <stdlib.h>
 
 void generacja_prim(labirynt* lab, int x, int y, int seed)
 {
     srand(seed);
-    komorka_t** komorki = lab->komorki;
-    komorki[y][x].odwiedzony = 1;                                  //pierwsza komorka ozanaczona jako odwiedzona
+    komorka** komorki = lab->komorki;
+    komorki[y][x].status = 1;                      //pierwsza komorka ozanaczona jako odwiedzona
 
     lista* lista = &lab->lista;
-    lista->elementy = malloc(150*sizeof(komorka_t*));    //stworzona lista na komorki sąsiadujące z odwiedzonymi
+    lista->elementy = malloc(150*sizeof(komorka*));    //stworzona lista na komorki sąsiadujące z odwiedzonymi
     lista->rozmiar = -1;
 
-    dodajsasiadow(lab, &komorki[y][x]);                   //dodanie sąsiadow pierwszej komórki do listy
+    dodajsasiadow(lab, &komorki[y][x]);        //dodanie sąsiadow pierwszej komórki do listy
     int* i;
-    komorka_t* k;       //losowy element z listy
-    komorka_t* n;       //losowa komorka obok losowo wybranego k
+    komorka* k;       //losowy element z listy
+    komorka* n;       //losowa komorka obok losowo wybranego k
     int r;
     while((r = lista->rozmiar) >= 0)
     {
-        int waga = rand()%100 +1 ;    //losowa waga z zakresu 1-100
+        float waga = (float)(rand()%1000 +1)/100;    //losowa waga z zakresu 1-10
 
         k = lista->elementy[rand()%(r + 1)];
 
         int a = 1000;
-        while(r >= 0)   //pętla tworzy przejście między losowo wybranym elementem z listy (nieodwiedzonym) a sąsiadującą z nim komórką labiryntu
+        while(1)   //pętla tworzy przejście między losowo wybranym elementem z listy (nieodwiedzonym) a sąsiadującą z nim komórką labiryntu
         {
             a--;
             if(a == 0){srand(rand()); a = 1000;} //odświeżenie rand zapobiegające zapętleniom
 
             i = losuj(rand());
             n = &komorki[k->y+i[0]][k->x+i[1]];
-            if(n->odwiedzony == 1)
+            if(n->status == 1)
             {
                 if(i[1] == 1)
                 {
@@ -55,31 +55,30 @@ void generacja_prim(labirynt* lab, int x, int y, int seed)
             }
             free(i);
         }
-        k->odwiedzony = 1;
+        k->status = 1;
         dodajsasiadow(lab, k);
         usunzlisty(lista, k);
     }
 }
 
-void dodajsasiadow(labirynt* lab, komorka_t* k)
+void dodajsasiadow(labirynt* lab, komorka* k)
 {
-    komorka_t* n;
+    komorka* n;
     lista* l = &lab->lista;
-    if(!(n = &lab->komorki[k->y][k->x+1])->odwiedzony)
+    if(!(n = &lab->komorki[k->y][k->x+1])->status)
     {
         dodajdolisty(l, n);
     }
-    if(!(n = &lab->komorki[k->y][k->x-1])->odwiedzony)
+    if(!(n = &lab->komorki[k->y][k->x-1])->status)
     {
         dodajdolisty(l, n);
     }
-    if(!(n = &lab->komorki[k->y+1][k->x])->odwiedzony)
+    if(!(n = &lab->komorki[k->y+1][k->x])->status)
     {
         dodajdolisty(l, n);
     }
-    if(!(n = &lab->komorki[k->y-1][k->x])->odwiedzony)
+    if(!(n = &lab->komorki[k->y-1][k->x])->status)
     {
         dodajdolisty(l, n);
     }
 }
-

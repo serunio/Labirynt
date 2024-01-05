@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     int seed = (int)time(NULL);
     srand(seed);
 
-    int waga = 0;
+    float waga = 0;
     droga* d = NULL;
 
     labirynt lab = tworzl(x + 2, y + 2);
@@ -47,14 +47,12 @@ int main(int argc, char** argv)
         druk(&lab, x, y, 2);
         writer(d, lab.start->numer);
     }
-    printf("Suma wag na calym przejsciu: %d\n", waga);
-    if(argc == 1){printf("Podaj argument \"-h\" aby uzyskac pomoc\n\n");
-    }
+    printf("Suma wag na calym przejsciu: %.2f\n", waga);
+    if(argc == 1) printf("Podaj argument \"-h\" aby uzyskac pomoc\n\n");
 
     for(int i = y+1; i >= 0; i--)
         free(lab.komorki[i]);
     free(lab.komorki);
-    //getc(stdin);
     return 0;
 }
 

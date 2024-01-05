@@ -5,10 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "labirynt.h"
+#include "string.h"
+
+#define Z "[101m[97m [41m"
+//#define Z "#"
 
 void druk(labirynt* lab, int x, int y, int tryb)
 {
-    komorka_t** l = lab->komorki;
+    komorka** l = lab->komorki;
     printf("\n");
     system("");
     drukbariera(l, x, 1); printf("\033[0m");
@@ -16,7 +20,7 @@ void druk(labirynt* lab, int x, int y, int tryb)
     {
         if(tryb == 1)
         {
-            lab->start->odwiedzony = 3;
+            lab->start->status = 3;
             drukpion_sciezka(l, x, j);
             if(j<y) drukpoziom_sciezka(l, x, j);
         }
@@ -33,25 +37,26 @@ void druk(labirynt* lab, int x, int y, int tryb)
 
     }
     drukbariera(l, x, y);
+
     printf("\033[0m\n");
 }
 
-void drukbariera(komorka_t** l, int x, int y)
+void drukbariera(komorka** l, int x, int y)
 {
 
-    printf("\033[47m#\033[40m");
+    printf(Z);
     for(int i = 1; i <= x; i++)
     {
-        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       \033[47m#\033[40m" : "\033[47m########\033[40m");
+        printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       " Z : Z Z Z Z Z Z Z Z);
     }
     printf("\033[0m");
     printf("\n");
 }
 
-void drukpion_numery(komorka_t** l, int x, int y)
+void drukpion_numery(komorka** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
-        printf("\033[47m#\033[40m");
+        printf(Z);
         for (int i = 1; i < x; i++)
         {
             if(j==1)
@@ -61,49 +66,53 @@ void drukpion_numery(komorka_t** l, int x, int y)
             if (l[y][i].prawo >  0)
                 printf(" ");
             else if (l[y][i].prawo == 0)
-                printf("\033[47m#\033[40m");
+                printf(Z);
         }
         if(j==1)
-            printf(" %3d   \033[47m#\033[0m\n",x+(y-1)*x);
+            printf(" %3d   " Z,x+(y-1)*x);
         else
-            printf("       \033[47m#\033[0m\n");
+            printf("       " Z);
+        printf("\033[0m");
+        printf("\n");
     }
 }
 
-void drukpion_pusty(komorka_t** l, int x, int y)
+void drukpion_pusty(komorka** l, int x, int y)
 {
     for(int j = 0; j<3; j++) {
-        printf("\033[47m#\033[40m");
+        printf(Z);
         for (int i = 1; i < x; i++)
         {
                 printf("       ");
             if (l[y][i].prawo >  0)
                 printf(" ");
             else if (l[y][i].prawo == 0)
-                printf("\033[47m#\033[40m");
+                printf(Z);
         }
-            printf("       \033[47m#\033[0m\n");
+            printf("       " Z);
+        printf("\033[0m");
+        printf("\n");
     }
 }
 
-void drukpion_sciezka(komorka_t** l, int x, int y)
+void drukpion_sciezka(komorka** l, int x, int y)
 {
     int gora, dol, prawo, lewo;
     for(int j = 0; j<3; j++)
     {
-        printf("\033[47m#\033[40m");
+        printf(Z);
         for (int i = 1; i <= x; i++)
         {
-            if(l[y][i].odwiedzony == 3)
+            if(l[y][i].status == 3)
             {
                 gora = dol = prawo = lewo = 0;
-                if((l[y][i].gora && l[y-1][i].odwiedzony == 3) || l[y][i].rodzaj == START)
+                if((l[y][i].gora && l[y-1][i].status == 3) || l[y][i].rodzaj == START)
                     gora = 1;
-                if((l[y][i].dol && l[y+1][i].odwiedzony == 3) || l[y][i].rodzaj == STOP)
+                if((l[y][i].dol && l[y+1][i].status == 3) || l[y][i].rodzaj == STOP)
                     dol = 1;
-                if(l[y][i].prawo && l[y][i+1].odwiedzony == 3)
+                if(l[y][i].prawo && l[y][i+1].status == 3)
                     prawo = 1;
-                if(l[y][i].lewo && l[y][i-1].odwiedzony == 3)
+                if(l[y][i].lewo && l[y][i-1].status == 3)
                     lewo = 1;
 
                 if ((j == 0 && gora) || (j == 2 && dol))
@@ -115,7 +124,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
                 if (l[y][i].prawo > 0)
                     printf(j == 1 && prawo ? "." : " ");
                 else if (l[y][i].prawo == 0)
-                    printf("\033[47m#\033[40m");
+                    printf(Z);
             }
             else
             {
@@ -123,7 +132,7 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
                 if (l[y][i].prawo > 0)
                     printf(" ");
                 else if (l[y][i].prawo == 0)
-                    printf("\033[47m#\033[40m");
+                    printf(Z);
             }
         }
         printf("\033[0m");
@@ -131,39 +140,39 @@ void drukpion_sciezka(komorka_t** l, int x, int y)
     }
 }
 
-void drukpoziom(komorka_t** l, int x, int y)
+void drukpoziom(komorka** l, int x, int y)
 {
-    printf("\033[47m#\033[40m");
+    printf(Z);
     for(int i = 1; i <= x; i++)
     {
         if(l[y][i].dol > 0) {
             printf("       ");
             if (l[y][i+1].dol == 0 || i == x + 1 || l[y][i].prawo == 0)
-                printf("\033[47m#\033[40m");
+                printf(Z);
             else
                 printf(" ");
         }
         else if(l[y][i].dol == 0)
-            printf("\033[47m########\033[40m");
+            printf(Z Z Z Z Z Z Z Z);
     }
     printf("\033[0m");
     printf("\n");
 }
 
-void drukpoziom_sciezka(komorka_t** l, int x, int y)
+void drukpoziom_sciezka(komorka** l, int x, int y)
 {
-    printf("\033[47m#\033[40m");
+    printf(Z);
     for(int i = 1; i <= x; i++)
     {
         if(l[y][i].dol > 0) {
-            printf((l[y][i].odwiedzony == 3 && l[y+1][i].odwiedzony == 3) ? "   .   " : "       ");
+            printf((l[y][i].status == 3 && l[y + 1][i].status == 3) ? "   .   " : "       ");
             if (l[y][i+1].dol == 0 || i == x + 1 || l[y][i].prawo == 0)
-                printf("\033[47m#\033[40m");
+                printf(Z);
             else
                 printf(" ");
         }
         else if(l[y][i].dol == 0)
-            printf("\033[47m########\033[40m");
+            printf(Z Z Z Z Z Z Z Z);
     }
     printf("\033[0m");
     printf("\n");

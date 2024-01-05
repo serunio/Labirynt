@@ -3,7 +3,7 @@
 
 #include "labirynt.h"
 
-void dodajsasiadow(labirynt* lab, komorka_t* komorka);
+void dodajsasiadow(labirynt* lab, komorka* komorka);
 
 void generacja_prim(labirynt* lab, int x, int y, int seed);
 

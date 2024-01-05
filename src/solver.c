@@ -4,14 +4,14 @@
 #include "solver.h"
 #include "labirynt.h"
 
-int solver(komorka_t** l, droga** d, int x, int y, int* waga)
+float solver(komorka** l, droga** d, int x, int y, float* waga)
 {
 
-    if(l[y][x].odwiedzony != 1)
+    if(l[y][x].status != 1)
         return 0;
-    l[y][x].odwiedzony = 2;
+    l[y][x].status = 2;
 
-    int r = 0;
+    float r = 0;
 
     if(l[y][x].prawo)
         r = f(l, d, x+1, y, waga, l[y][x].prawo);
@@ -24,14 +24,14 @@ int solver(komorka_t** l, droga** d, int x, int y, int* waga)
     return r;
 }
 
-int f(komorka_t** l, droga** d, int x, int y, int* waga, int w)
+float f(komorka** l, droga** d, int x, int y, float* waga, float w)
 {
         *waga += w;
         if(l[y][x].rodzaj == STOP || solver(l, d, x, y, waga))
         {
             droga* new = malloc(sizeof * new);
             new->step = &l[y][x];
-            l[y][x].odwiedzony = 3;
+            l[y][x].status = 3;
             new->waga = w;
             new->next = *d;
             *d = new;
@@ -49,7 +49,7 @@ void writer(droga* d, int ostatniakomorka)
     {
         printf("\n[%03d]", ostatniakomorka);
         for (int i = 1; i < 10 && d != NULL; i++) {
-            printf("-%03d->[%03d]", d->waga, d->step->numer);
+            printf("-%.2f->[%03d]", d->waga, d->step->numer);
             ostatniakomorka = d->step->numer;
             tmp = d;
             d = d->next;
@@ -57,33 +57,4 @@ void writer(droga* d, int ostatniakomorka)
         }
     }
     printf("\n");
-}
-
-void solver2(labirynt* lab)
-{
-    komorka_t* a = lab->stop;
-    komorka_t* n;
-    droga d1;
-    droga d2;
-    droga* d = malloc(sizeof * d);
-    while(1)
-    {
-        n = &lab->komorki[a->y][a->x + 1];
-        if(f2(n, d))
-            continue;
-        n = &lab->komorki[a->y][a->x - 1];
-        if(f2(n, d))
-            continue;
-        n = &lab->komorki[a->y + 1][a->x];
-        if(f2(n, d))
-            continue;
-        n = &lab->komorki[a->y - 1][a->x];
-        if(f2(n, d))
-            continue;
-    }
-}
-
-int f2(komorka_t* n, droga* d)
-{
-
 }
