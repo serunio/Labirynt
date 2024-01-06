@@ -6,7 +6,7 @@
 
 float solver(komorka** l, droga** d, int x, int y, float* waga)
 {
-
+    //sprawdzenie czy komorka byla juz odwiedzona
     if(l[y][x].status != 1)
         return 0;
     l[y][x].status = 2;
@@ -49,7 +49,7 @@ void writer(droga* d, int ostatniakomorka)
     {
         printf("\n[%03d]", ostatniakomorka);
         for (int i = 1; i < 10 && d != NULL; i++) {
-            printf("-%.2f->[%03d]", d->waga, d->step->numer);
+            printf(d->waga == 10.00 ? "-%.1f->[%03d]" : "-%.2f->[%03d]", d->waga, d->step->numer);
             ostatniakomorka = d->step->numer;
             tmp = d;
             d = d->next;

@@ -39,12 +39,12 @@ int main(int argc, char** argv)
     solver(lab.komorki, &d, lab.start->x, lab.start->y, &waga);
 
     if(pusty)
-        druk(&lab, x, y, 0);
+        druk(lab, x, y, 0);
     if(sciezka)
-        druk(&lab, x, y, 1);
+        druk(lab, x, y, 1);
     if(numery)
     {
-        druk(&lab, x, y, 2);
+        druk(lab, x, y, 2);
         writer(d, lab.start->numer);
     }
     printf("Suma wag na calym przejsciu: %.2f\n", waga);

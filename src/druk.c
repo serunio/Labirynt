@@ -1,26 +1,23 @@
-//
-// Created by cheese on 26.11.2023.
-//
-#include "druk.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "labirynt.h"
-#include "string.h"
 
-#define Z "[101m[97m [41m"
+#include "druk.h"
+#include "labirynt.h"
+
+#define Z "[101m[47m [40m"
 //#define Z "#"
 
-void druk(labirynt* lab, int x, int y, int tryb)
+void druk(labirynt lab, int x, int y, int tryb)
 {
-    komorka** l = lab->komorki;
+    komorka** l = lab.komorki;
     printf("\n");
     system("");
-    drukbariera(l, x, 1); printf("\033[0m");
+    drukbariera(l, x, 1);
     for(int j = 1; j <= y; j++)
     {
         if(tryb == 1)
         {
-            lab->start->status = 3;
+            lab.start->status = 3;
             drukpion_sciezka(l, x, j);
             if(j<y) drukpoziom_sciezka(l, x, j);
         }
@@ -38,7 +35,7 @@ void druk(labirynt* lab, int x, int y, int tryb)
     }
     drukbariera(l, x, y);
 
-    printf("\033[0m\n");
+    printf("\n");
 }
 
 void drukbariera(komorka** l, int x, int y)
@@ -49,8 +46,7 @@ void drukbariera(komorka** l, int x, int y)
     {
         printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       " Z : Z Z Z Z Z Z Z Z);
     }
-    printf("\033[0m");
-    printf("\n");
+    printf("\033[0m\n");
 }
 
 void drukpion_numery(komorka** l, int x, int y)

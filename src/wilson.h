@@ -1,5 +1,3 @@
-
-
 #ifndef LABIRYNT_WILSON_H
 #define LABIRYNT_WILSON_H
 #include "labirynt.h"
