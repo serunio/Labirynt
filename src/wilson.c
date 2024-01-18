@@ -1,11 +1,13 @@
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "wilson.h"
 #include "labirynt.h"
-
-void generacja_wilson(labirynt* lab, int seed)
+int count = 0;
+float generacja_wilson(labirynt* lab, int seed)
 {
+    count = 0;
     srand(seed);
     lista* lista = &lab->lista;
     lista->elementy = malloc(lab->x * lab->y * sizeof(komorka*)); //lista nieodwiedzonych elementów
@@ -34,7 +36,9 @@ void generacja_wilson(labirynt* lab, int seed)
 
         n->status = 1;
     }
+    //printf("ilosc: %i\n", count);
     free(lista->elementy);
+    return (float)count;
 }
 
 void randomwalk(labirynt* lab, int x, int y, int seed)
@@ -45,19 +49,26 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
     komorka* k = &lab->komorki[y][x]; //aktualna komórka
     komorka* n; //nastepna komórka
     d->step = k;
-    int* i;
+
     int a = 1000;
     int b = a;
+    int c = 0;
     while(k->status != 1)
     {
-
+            c++;
+            count++;
             a--;
             if(a == 0) {srand(seed); a = b--;} //odświeżenie rand zapobiegające zapętleniom
+            //if(b == 0) {b = 1000;}
             seed = rand();
 
+
+
             //wybranie kierunku
+            int* i;
             i = losuj(seed);
             n = &lab->komorki[k->y+i[0]][k->x+i[1]];
+            free(i);
 
             //sprawdzenie czy to nie bariera, jak tak to wybranie jeszcze raz
             if(n->status == -1)
@@ -72,8 +83,11 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
                 //jeżeli to pętla to cofamy sie po drodze az do tej komorki i jedziemy dalej
                 while(d->step->numer != n->numer)
                 {
+                    droga* temp;
                     d->step->status = 0;
+                    temp = d;
                     d = d->next;
+                    free(temp);
                 }
                 k = n;
             }
@@ -88,6 +102,8 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
                 d = new;
             }
     }
+    droga* temp;
+    int i[2];
    while(d->step->numer != lab->komorki[y][x].numer)
    {
        float waga = (float)(rand()%1000 +1)/100;    //losowa waga z zakresu 1-10
@@ -98,7 +114,9 @@ void randomwalk(labirynt* lab, int x, int y, int seed)
        usunzlisty(&lab->lista, a);
        i[0] = b->y - a->y;
        i[1] = b->x - a->x;
+       temp = d;
        d = d->next;
+       free(temp);
        if(i[1] == 1) {
            a->prawo = b->lewo = waga;
        } else

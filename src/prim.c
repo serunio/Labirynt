@@ -1,84 +1,100 @@
 #include "prim.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void generacja_prim(labirynt* lab, int x, int y, int seed)
 {
-    srand(seed);
-    komorka** komorki = lab->komorki;
-    komorki[y][x].status = 1;                      //pierwsza komorka ozanaczona jako odwiedzona
+    srand(seed); // O(1)
+    komorka** komorki = lab->komorki; // O(1)
+    komorki[y][x].status = 1; // O(1)
 
-    lista* lista = &lab->lista;
-    lista->elementy = malloc(150*sizeof(komorka*));    //stworzona lista na komorki sąsiadujące z odwiedzonymi
-    lista->rozmiar = -1;
+    lista* lista = &lab->lista; // O(1)
+    lista->elementy = malloc(1000 * sizeof(komorka*)); // O(1)
+    lista->rozmiar = -1; // O(1)
 
-    dodajsasiadow(lab, &komorki[y][x]);        //dodanie sąsiadow pierwszej komórki do listy
-    int* i;
-    komorka* k;       //losowy element z listy
-    komorka* n;       //losowa komorka obok losowo wybranego k
-    int r;
-    while((r = lista->rozmiar) >= 0)
+    dodajsasiadow(lab, &komorki[y][x]); // O(1)
+
+    int* i; // O(1)
+    komorka* k; // O(1)
+    komorka* n; // O(1)
+    int r; // O(1)
+    // Pętla while wykonuje się (x * y - 1) razy, gdzie x to liczba kolumn, a y to liczba wierszy
+    while ((r = lista->rozmiar) >= 0) // O(x * y)
     {
-        float waga = (float)(rand()%1000 +1)/100;    //losowa waga z zakresu 1-10
+        float waga = (float)(rand() % 1000 + 1) / 100; // O(1)
 
-        k = lista->elementy[rand()%(r + 1)];
+        k = lista->elementy[rand() % (r + 1)]; // O(1)
 
         int a = 1000;
-        while(1)   //pętla tworzy przejście między losowo wybranym elementem z listy (nieodwiedzonym) a sąsiadującą z nim komórką labiryntu
-        {
-            a--;
-            if(a == 0){srand(rand()); a = 1000;} //odświeżenie rand zapobiegające zapętleniom
 
-            i = losuj(rand());
-            n = &komorki[k->y+i[0]][k->x+i[1]];
-            if(n->status == 1)
+        // Pętla while może potencjalnie powtórzyć się wiele razy w zależności od losowania
+        // Nie ma to wpływu na złożoność obliczeniową
+        while (1)
+        {
+            a--; // O(1)
+            if (a == 0)
             {
-                if(i[1] == 1)
+                srand(rand()); // O(1)
+                a = 1000; // O(1)
+            }
+
+            i = losuj(rand()); // O(1)
+            n = &komorki[k->y + i[0]][k->x + i[1]]; // O(1)
+
+            if (n->status == 1)
+            {
+                if (i[1] == 1)
                 {
-                    k->prawo = n->lewo = waga;
+                    k->prawo = n->lewo = waga; // O(1)
                     break;
-                } else
-                if(i[1] == -1)
+                }
+                else if (i[1] == -1)
                 {
-                    k->lewo = n->prawo = waga;
+                    k->lewo = n->prawo = waga; // O(1)
                     break;
-                } else
-                if(i[0] == 1)
+                }
+                else if (i[0] == 1)
                 {
-                    k->dol = n->gora = waga;
+                    k->dol = n->gora = waga; // O(1)
                     break;
-                } else
-                if(i[0] == -1)
+                }
+                else if (i[0] == -1)
                 {
-                    k->gora = n->dol = waga;
+                    k->gora = n->dol = waga; // O(1)
                     break;
                 }
             }
-            free(i);
+            free(i); // O(1)
         }
-        k->status = 1;
-        dodajsasiadow(lab, k);
-        usunzlisty(lista, k);
+
+        k->status = 1; // O(1)
+        dodajsasiadow(lab, k); // O(1)
+        usunzlisty(lista, k); // O(1)
     }
+
+    free(lista->elementy); // O(1)
 }
 
 void dodajsasiadow(labirynt* lab, komorka* k)
 {
-    komorka* n;
-    lista* l = &lab->lista;
-    if(!(n = &lab->komorki[k->y][k->x+1])->status)
+    komorka* n; // O(1)
+    lista* l = &lab->lista; // O(1)
+
+    // Dla każdej sąsiedniej komórki wykonuje się O(1) operacji (stała złożoność)
+    if (!(n = &lab->komorki[k->y][k->x + 1])->status)
     {
-        dodajdolisty(l, n);
+        dodajdolisty(l, n); // O(1)
     }
-    if(!(n = &lab->komorki[k->y][k->x-1])->status)
+    if (!(n = &lab->komorki[k->y][k->x - 1])->status)
     {
-        dodajdolisty(l, n);
+        dodajdolisty(l, n); // O(1)
     }
-    if(!(n = &lab->komorki[k->y+1][k->x])->status)
+    if (!(n = &lab->komorki[k->y + 1][k->x])->status)
     {
-        dodajdolisty(l, n);
+        dodajdolisty(l, n); // O(1)
     }
-    if(!(n = &lab->komorki[k->y-1][k->x])->status)
+    if (!(n = &lab->komorki[k->y - 1][k->x])->status)
     {
-        dodajdolisty(l, n);
+        dodajdolisty(l, n); // O(1)
     }
 }

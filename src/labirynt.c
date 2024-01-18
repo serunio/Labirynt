@@ -55,11 +55,11 @@ int* losuj(int seed)
     return i;
 }
 
-void dodajdolisty(lista* l, komorka* n)
+void dodajdolisty(lista* l, komorka* n) // O(1)
 {
-    n->status = 4;
-    l->elementy[++l->rozmiar] = n;
-    n->numernaliscie = l->rozmiar;
+    n->status = 4; // O(1)
+    l->elementy[++l->rozmiar] = n; // O(1)
+    n->numernaliscie = l->rozmiar; // O(1)
 }
 
 void usunzlisty(lista* l, komorka* k)

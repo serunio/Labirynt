@@ -4,7 +4,7 @@
 #define LABIRYNT_WILSON_H
 #include "labirynt.h"
 
-void generacja_wilson(labirynt*, int seed);
+float generacja_wilson(labirynt*, int seed);
 
 void randomwalk(labirynt*, int x, int y, int seed);
 

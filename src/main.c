@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 #include "labirynt.h"
 #include "prim.h"
@@ -16,12 +17,38 @@ int start(int argc, char** argv);
 int pusty = 0, sciezka = 0, numery = 0, dfs = 0, prim = 0, wilson = 0;
 int x, y;
 
-int main(int argc, char** argv)
+int main() {
+    labirynt l;
+    for (int i = 46; i <= 300; i++) {
+        int precision = 10000;
+        float total = 0;
+        for (int k = 1; k <= precision; k++) {
+            // Zastąp poniższą linijkę odpowiednim kodem do uruchomienia Labirynt.exe z argumentami
+            // oraz przechwycenia wyniku.
+            l = tworzl(i+2, i+2);
+
+            float result = generacja_wilson(&l, k)/(i*i);
+            for(int j = y+1; j >= 0; j--)
+                free(l.komorki[j]);
+            free(l.komorki);
+            total += result;
+
+        }
+        float average = total / precision;
+        printf("(%d, %f), ", i, average);
+
+    }
+
+    return 0;
+}
+
+int main0(int argc, char** argv)
 {
     if(start(argc, argv))
         return 0;
 
-    int seed = (int)time(NULL);
+    int seed = (int)(time(NULL));
+    //printf("%i\n", seed);
     srand(seed);
 
     float waga = 0;
@@ -126,7 +153,7 @@ int start(int argc, char** argv)
         y = atoi(argv[2]);  //labiryntu
     }
 
-    if(x < 2 || y < 2 || x > 30 || y > 30)
+    if(x < 2 || y < 2 || x > 300 || y > 300)
     {
         printf("Podano nieprawidlowe wymiary\n");
         help();

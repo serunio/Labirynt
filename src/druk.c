@@ -7,8 +7,8 @@
 #include "labirynt.h"
 #include "string.h"
 
-#define Z "[101m[97m [41m"
-//#define Z "#"
+//#define Z "[101m[97m [41m"
+#define Z "#"
 
 void druk(labirynt* lab, int x, int y, int tryb)
 {
