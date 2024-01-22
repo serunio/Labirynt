@@ -1,2 +1,2 @@
 all:
-	gcc src\*.c -o Labirynt.exe
+	gcc src/*.c -o Labirynt.exe
