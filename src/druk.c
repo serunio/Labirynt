@@ -4,7 +4,7 @@
 #include "druk.h"
 #include "labirynt.h"
 
-#define Z "[101m[47m [40m"
+#define Z "[97m[47m [40m"
 //#define Z "#"
 
 void druk(labirynt lab, int x, int y, int tryb)
