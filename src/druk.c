@@ -46,7 +46,7 @@ void drukbariera(komorka** l, int x, int y)
     {
         printf(l[y][i].rodzaj == START || l[y][i].rodzaj == STOP ? "       " Z : Z Z Z Z Z Z Z Z);
     }
-    printf("\033[0m\n");
+    //printf("\033[0m\n");
 }
 
 void drukpion_numery(komorka** l, int x, int y)
@@ -68,7 +68,7 @@ void drukpion_numery(komorka** l, int x, int y)
             printf(" %3d   " Z,x+(y-1)*x);
         else
             printf("       " Z);
-        printf("\033[0m");
+        //printf("\033[0m");
         printf("\n");
     }
 }
@@ -86,7 +86,7 @@ void drukpion_pusty(komorka** l, int x, int y)
                 printf(Z);
         }
             printf("       " Z);
-        printf("\033[0m");
+        //printf("\033[0m");
         printf("\n");
     }
 }
@@ -131,7 +131,7 @@ void drukpion_sciezka(komorka** l, int x, int y)
                     printf(Z);
             }
         }
-        printf("\033[0m");
+        //printf("\033[0m");
         printf("\n");
     }
 }
@@ -151,7 +151,7 @@ void drukpoziom(komorka** l, int x, int y)
         else if(l[y][i].dol == 0)
             printf(Z Z Z Z Z Z Z Z);
     }
-    printf("\033[0m");
+    //printf("\033[0m");
     printf("\n");
 }
 
@@ -170,7 +170,7 @@ void drukpoziom_sciezka(komorka** l, int x, int y)
         else if(l[y][i].dol == 0)
             printf(Z Z Z Z Z Z Z Z);
     }
-    printf("\033[0m");
+    //printf("\033[0m");
     printf("\n");
 }
 
